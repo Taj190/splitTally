@@ -1,0 +1,65 @@
+"use client";
+import { useEffect } from "react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { FcGoogle } from "react-icons/fc";
+import { googleLogin } from "../store/slices/authSlice";
+import { saveUserData } from "../utils/authHelper";
+import LoginForm from "../component/signUp/loginForm";
+import Link from "next/link";
+
+
+export default function LoginPage() {
+  const { data: session } = useSession();
+  const router = useRouter();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (session?.user) {
+      saveUserData(session.user, router);
+      dispatch(
+        googleLogin({
+          user: {
+            id: session.user.id,
+            email: session.user.email,
+            name: session.user.name,
+          },
+          token: session?.accessToken || session?.user?.accessToken,
+        })
+      );
+    }
+  }, [session, router, dispatch]);
+
+  const handleGoogleSignUp = async () => {
+    try {
+      await signIn("google", { redirect: false });
+    } catch (error) {
+      console.error("Error during Google Sign-Up:", error);
+    }
+  };
+
+  return (
+    <div className="flex items-center justify-center min-h-screen bg-gray-100 p-4">
+      <div className="w-full max-w-md bg-white shadow-md rounded-lg p-6 border border-gray-200">
+        <h2 className="text-2xl font-bold text-center mb-4">Login</h2>
+        <LoginForm /> {/* Using the extracted LoginForm component */}
+        <div className="flex items-center my-4">
+          <div className="flex-grow border-t"></div>
+          <span className="mx-2 text-gray-500">OR</span>
+          <div className="flex-grow border-t"></div>
+        </div>
+        <button
+          onClick={handleGoogleSignUp}
+          className="w-full bg-red-500 hover:bg-red-600 text-white rounded-md py-2 flex items-center justify-center"
+        >
+          <FcGoogle className="mr-2 text-xl" /> Sign in with Google
+        </button>
+        <p className="text-sm text-center mt-4">
+          Don’t have an account?{" "}
+          <Link href="/" className="text-blue-500 hover:underline">Sign up</Link>
+        </p>
+      </div>
+    </div>
+  );
+}
