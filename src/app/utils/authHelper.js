@@ -9,7 +9,6 @@ import { logout } from '../store/slices/authSlice';
 export const useSaveUserData = (user, router) => {
   const [logoutTriggered, setLogoutTriggered] = useState(false);
   const dispatch = useDispatch();
-
   useEffect(() => {
     if (logoutTriggered) {
       setTimeout(() => {
@@ -100,4 +99,5 @@ export const handleGetCode = async (email, setCodeSent, toast) => {
     }
   };
 
+  
   

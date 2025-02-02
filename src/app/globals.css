@@ -2,20 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* Default light mode styles */
+html {
+  /* Light mode styling by default */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html.dark {
+  background-color: #2d3748; /* Dark background */
+  color: white; /* Light text for dark mode */
 }
 
+/* Ensure smooth transitions for background and text color */
 body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Optional: Style specific dark mode elements */
+body {
+  background-color: #f7fafc; /* Light background default */
+}
+
+/* Example dark mode adjustments */
+html.dark body {
+  background-color: #2d3748; /* Dark background */
+  color: white; /* Light text */
 }

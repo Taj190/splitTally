@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -30,26 +29,26 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleLogin} className="space-y-4 text-black">
+    <form onSubmit={handleLogin} className="space-y-4 text-black dark:text-white">
     {error && <p className="text-red-500 text-center text-sm">{error}</p>}
   
-    <label className="block text-black">Email</label>
+    <label className="block dark:text-white">Email</label>
     <input
       type="email"
       placeholder="Email"
       value={email}
       onChange={(e) => setEmail(e.target.value)}
-      className="w-full p-2 border rounded-md focus:ring focus:ring-blue-300 text-black"
+      className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       required
     />
   
-    <label className="block text-black">Password</label>
+    <label className="block dark:text-white">Password</label>
     <input
       type="password"
       placeholder="Password"
       value={password}
       onChange={(e) => setPassword(e.target.value)}
-      className="w-full p-2 border rounded-md focus:ring focus:ring-blue-300 text-black"
+      className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       required
     />
   
@@ -67,6 +66,7 @@ export default function LoginForm() {
       </Link>
     </div>
   </form>
+  
   
   );
 }

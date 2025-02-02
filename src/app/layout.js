@@ -8,6 +8,7 @@ import { ToastContainer } from 'react-toastify'; // For notifications
 import 'react-toastify/dist/ReactToastify.css'; // Toastify styles
 import './globals.css'; // Your global styles
 import { persistor, store } from './store';
+import Navbar from './component/navbar/Navbar';
 
 export default function RootLayout({ children }) {
   return (
@@ -18,6 +19,8 @@ export default function RootLayout({ children }) {
           <PersistGate loading={null} persistor={persistor}>
             {/* Wrap your app with next-auth SessionProvider */}
             <SessionProvider>
+               {/* Add Navbar here */}
+               <Navbar />
               {children} {/* Your app content */}
               {/* Add ToastContainer here */}
               <ToastContainer

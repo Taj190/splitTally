@@ -30,11 +30,12 @@ export default function Home() {
   }, [session, router, dispatch ]);
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 p-4">
-      <div className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-200">
-        <h1 className="text-2xl font-bold text-center mb-6 text-gray-800">Sign Up</h1>
-        <SignUpForm />
-      </div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 p-4">
+    <div className="w-full max-w-md bg-white/90 dark:bg-gray-800/90 backdrop-blur-sm rounded-lg shadow-lg p-6 border border-gray-200 dark:border-gray-700">
+      <h1 className="text-2xl font-bold text-center mb-6 text-gray-800 dark:text-white">Sign Up</h1>
+      <SignUpForm />
     </div>
+  </div>
+  
   );
 }

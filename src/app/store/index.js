@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import sessionStorage from "redux-persist/lib/storage/session"; // Use sessionStorage
 import authReducer from './slices/authSlice'
-
+import themeReducer from './slices/themeSlice'
 // Persist configuration
 const persistConfig = {
   key: "auth", 
@@ -13,10 +13,11 @@ const persistConfig = {
 // Create a persisted reducer
 const persistedReducer = persistReducer(persistConfig, authReducer);
 
-// Configure the store
+
 const store = configureStore({
   reducer: {
-    auth: persistedReducer, // Use the persisted reducer
+    auth: persistedReducer, 
+    theme: themeReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
