@@ -7,7 +7,7 @@ import themeReducer from './slices/themeSlice'
 const persistConfig = {
   key: "auth", 
   storage: sessionStorage,
-  whitelist: ["user", "token", "isAuthenticated"], // Only persist these fields
+  whitelist: ["user", "isAuthenticated"], // Only persist these fields
 };
 
 // Create a persisted reducer

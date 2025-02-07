@@ -32,7 +32,7 @@ export const useSaveUserData = (user, router) => {
       );
       if (response.data.success) {
         toast.success(response.data.message);
-        router.push('/about');
+        router.push('/dashboard');
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Something went wrong!");
@@ -81,7 +81,7 @@ export const handleGetCode = async (email, setCodeSent, toast) => {
       if (response.data.success) {
         toast.success(response.data.message);
         setFormData({ name: '', email: '', password: '', code: '', codeSent: false });
-        router.push('/about');
+        router.push('/dashboard');
       }
     } catch (error) {
         if (error.response && error.response.status === 400) {

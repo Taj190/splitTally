@@ -21,7 +21,7 @@ export default function LoginForm() {
 
     try {
       const response = await dispatch(loginUser({ email, password })).unwrap();
-      if (response) router.push("/about");
+      if (response) router.push("/dashboard");
     } catch (err) {
       setError(err.message || "Login failed.");
     }
@@ -61,7 +61,7 @@ export default function LoginForm() {
     </button>
   
     <div className="text-center text-sm mt-3">
-      <Link href="/forgot-password" className="text-blue-500 hover:underline">
+      <Link href="/forgot" className="text-blue-500 hover:underline">
         Forgot password?
       </Link>
     </div>

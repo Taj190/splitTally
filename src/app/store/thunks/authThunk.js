@@ -8,12 +8,12 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post("http://localhost:8080/login/user", {
         email,
         password,
-      });
+      },{ withCredentials: true } );
     if(response.data.success){
-      const token = response.data.token;
-      const userData = jwtDecode(token); // Decode token
+      const userData = response.data.name
+      
+      return { user: { name: userData } };
 
-      return { token, user: userData };
     }
      
     } catch (error) {

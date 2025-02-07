@@ -4,32 +4,22 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
-import { googleLogin } from "../store/slices/authSlice";
-
-import LoginForm from "../component/signUp/loginForm";
+import LoginForm from "../../component/signUp/loginForm";
 import Link from "next/link";
+import { useSaveUserData } from "@/app/utils/authHelper";
+
 
 
 export default function LoginPage() {
   const { data: session } = useSession();
   const router = useRouter();
-  const dispatch = useDispatch();
-
+ const saveUser = useSaveUserData(session?.user, router);
   useEffect(() => {
     if (session?.user) {
-      saveUserData(session.user, router);
-      dispatch(
-        googleLogin({
-          user: {
-            id: session.user.id,
-            email: session.user.email,
-            name: session.user.name,
-          },
-          token: session?.accessToken || session?.user?.accessToken,
-        })
-      );
+      saveUser()
+     
     }
-  }, [session, router, dispatch]);
+  }, [session, router ]);
 
   const handleGoogleSignUp = async () => {
     try {

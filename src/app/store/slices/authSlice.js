@@ -5,7 +5,6 @@ import { loginUser } from "../thunks/authThunk";
 
 const initialState = {
   user: null,
-  token: null,
   isAuthenticated: false,
   loading: false,
   error: null,
@@ -17,13 +16,7 @@ const authSlice = createSlice({
   reducers: {
     logout: (state) => {
       state.user = null;
-      state.token = null;
       state.isAuthenticated = false;
-    },
-    googleLogin: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
     },
   },
   extraReducers: (builder) => {
@@ -35,7 +28,6 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.token = action.payload.token;
         state.isAuthenticated = true;
       })
       .addCase(loginUser.rejected, (state, action) => {
@@ -45,6 +37,6 @@ const authSlice = createSlice({
   },
 });
 
-export const { logout , googleLogin} = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
 

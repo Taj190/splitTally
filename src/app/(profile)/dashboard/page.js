@@ -1,9 +1,10 @@
 'use client';
 
+import CreateGroupButton from '@/app/component/Groupcreation/GroupCreationBtn';
+import { logout } from '@/app/store/slices/authSlice';
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../store/slices/authSlice';
 
 export default function Home() {
   const { data: session, status } = useSession(); // Google Auth
@@ -12,6 +13,7 @@ export default function Home() {
   
   const dispatch = useDispatch();
   const router = useRouter();
+
   
   if (status === 'loading') {
     return <p>Loading...</p>;
@@ -37,12 +39,12 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4">
       <h1>Welcome to the App</h1>
-      
+        <CreateGroupButton/>
       {/* Show Google user details if logged in via Google */}
       {session && (
         <>
           <p>Name: {session.user.name}</p>
-          <p>Email: {session.user.email}</p>
+        
         </>
       )}
 
@@ -50,7 +52,7 @@ export default function Home() {
       {!session && isLoggedIn && user && (
         <>
           <p>Name: {user.name}</p>
-          <p>Email: {user.email}</p>
+       
         </>
       )}
 

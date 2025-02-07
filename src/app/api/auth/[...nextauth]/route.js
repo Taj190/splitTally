@@ -26,6 +26,7 @@ const authOptions = {
         return {
           ...token,
           accessToken: account.access_token,
+          idToken: account.id_token, 
           userId: user.id,
           email: user.email,
           name: user.name
@@ -37,6 +38,7 @@ const authOptions = {
       // Add token info to session
       session.user.accessToken = token.accessToken;
       session.user.id = token.userId;
+      session.user.idToken = token.idToken; 
       return session;
     },
     async signIn({ user, account, profile }) {
