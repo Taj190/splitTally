@@ -8,8 +8,8 @@ const config = {
   testMatch: ["**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[tj]s?(x)"],
   setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
   transform: {
-    "^.+\\.(js|jsx|ts|tsx)$": "babel-jest", // Use Babel to transform JS/JSX/TS/TSX files
-  },
+    "^.+\\.(js|jsx|ts|tsx)$": "@swc/jest"
+  }
 };
 
 module.exports = config;
