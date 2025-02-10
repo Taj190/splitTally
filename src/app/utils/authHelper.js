@@ -20,6 +20,7 @@ export const useSaveUserData = (user, router) => {
 
   const saveUserData = useCallback(async () => {
     try {
+      console.log(user.accessToken)
       const response = await axios.post(
         'http://localhost:8080/user/sign-up',
         {
@@ -28,7 +29,10 @@ export const useSaveUserData = (user, router) => {
           googleId: user?.id,
           isGoogleSignUp: true,
         },
-        { headers: { 'Content-Type': 'application/json' }, withCredentials: true }
+        {   headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${user.accessToken}`, // Add JWT here
+        }, withCredentials: true }
       );
       if (response.data.success) {
         toast.success(response.data.message);
@@ -81,7 +85,7 @@ export const handleGetCode = async (email, setCodeSent, toast) => {
       if (response.data.success) {
         toast.success(response.data.message);
         setFormData({ name: '', email: '', password: '', code: '', codeSent: false });
-        router.push('/dashboard');
+        router.push('/login');
       }
     } catch (error) {
         if (error.response && error.response.status === 400) {

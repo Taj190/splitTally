@@ -19,6 +19,7 @@ export default function GroupList() {
     const fetchGroups = async () => {
       try {
         const token = session?.user?.idToken;
+        console.log(token)
         const headers = token
           ? { Authorization: `Bearer ${token}` }
           : { credentials: 'include' };
