@@ -1,48 +1,33 @@
 'use client';
-
 import { useEffect, useState } from 'react';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../Pagination/Pagination';
+import { fetchGroups } from '@/app/store/thunks/groupListThunk';
+import { useSession } from 'next-auth/react';
 
 export default function GroupList() {
-  const { data: session } = useSession(); // Google Auth
-  const user = useSelector((state) => state.auth.user); // Redux state for email/password auth
-  const [groups, setGroups] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
+  const { groups =[], loading, error, totalPages } = useSelector((state) => state.groups);
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  const { data: session } = useSession(); 
+ 
 
+ 
   useEffect(() => {
-    const fetchGroups = async () => {
-      try {
-        const token = session?.user?.idToken;
-        console.log(token)
-        const headers = token
-          ? { Authorization: `Bearer ${token}` }
-          : { credentials: 'include' };
+    let token = null;
 
-        const res = await axios.get(
-          `http://localhost:8080/group/list?page=${currentPage}`,
-          { headers, withCredentials: true }
-        );
-      
-        setGroups(res.data.groups);
-      } catch (err) {
-        console.error('Error fetching groups:', err);
-        setError('Failed to fetch groups.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    if (session || user) {
-      fetchGroups();
+    if (session) {
+      token = session.user.idToken; 
+      dispatch(fetchGroups({ page: currentPage, token }));
+    } else{
+      dispatch(fetchGroups({ page: currentPage }));
     }
-  }, [session, user, currentPage]);
 
+   
+  }, [dispatch, currentPage, session]);
+
+
+  
   return (
     <div className="w-full md:w-1/1 p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">
       <h2 className="text-lg font-semibold mb-3 text-gray-900 dark:text-gray-100">

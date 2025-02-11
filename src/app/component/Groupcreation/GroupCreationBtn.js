@@ -17,7 +17,6 @@ const CreateGroupButton = () => {
 
     try {
       const token = session?.user?.idToken; 
-   
       const headers = token
         ? { Authorization: `Bearer ${token}` }
         : { credentials: 'include' };
@@ -27,7 +26,7 @@ const CreateGroupButton = () => {
         { groupName },
         { headers, withCredentials: true }
       );
-
+       console.log(res.data)
       if (res.data.success) {
         toast.success('Group created successfully!');
         setGroups([...groups, res.data.group]);

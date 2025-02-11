@@ -10,7 +10,6 @@ export const loginUser = createAsyncThunk(
       },{ withCredentials: true } );
     if(response.data.success){
       const userData = response.data.name
-      
       return { user: { name: userData } };
 
     }

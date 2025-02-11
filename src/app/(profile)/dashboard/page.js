@@ -1,5 +1,4 @@
 'use client';
-
 import CreateGroupButton from '@/app/component/Groupcreation/GroupCreationBtn';
 import GroupList from '@/app/component/Groupcreation/GroupList';
 import { useSession } from 'next-auth/react';
