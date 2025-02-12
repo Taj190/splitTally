@@ -1,38 +1,43 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
+import { useParams } from "next/navigation";
+import AddMemberButton from '@/app/component/Members/addmembers';
+// import AddMember from './AddMember';
 
 export default function GroupDetails() {
-  const router = useRouter();
-  const { groupname } = router.query; // Extract group name from URL
-  const { data: session } = useSession(); // If using Google Auth
-  const user = useSelector((state) => state.auth.user); // Redux for email/password users
-
+  const params = useParams();
+  const groupName = params.groupName;
+  const { data: session, status } = useSession();
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showMembers, setShowMembers] = useState(false);
+
+  const groups = useSelector((state) => state.groups.groups);
+  const groupDetail = groups.find((group) => group.name === groupName);
+  const _id = groupDetail?._id;
 
   useEffect(() => {
-    if (!groupname) return;
+    if (!groupName || status === 'loading') return;
 
     const fetchGroup = async () => {
       try {
-        const token = session?.user?.idToken || user?.token;
-        const headers = token ? { Authorization: `Bearer ${token}` } : { credentials: 'include' };
+        let headers = {};
+        if (session?.user?.idToken) {
+          headers.Authorization = `Bearer ${session.user.idToken}`;
+        }
 
-        // Request to fetch group details securely
-        const res = await axios.get(`http://localhost:8080/group/details?name=${groupname}`, {
+        const res = await axios.get(`http://localhost:8080/group/detail?_id=${_id}`, {
           headers,
           withCredentials: true,
         });
 
-        setGroup(res.data); // Backend returns { _id, name, members }
+        setGroup(res.data);
       } catch (err) {
-        console.error('Error fetching group details:', err);
         setError('Failed to fetch group details.');
       } finally {
         setLoading(false);
@@ -40,15 +45,36 @@ export default function GroupDetails() {
     };
 
     fetchGroup();
-  }, [groupname, session, user]);
+  }, [groupName, session, status]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
+  if (!group) return <p>No group found.</p>;
 
   return (
-    <div>
-      <h1>{group.name}</h1>
-      <p>Group ID: {group._id}</p>
+<div className="flex flex-col items-center justify-center  p-6">
+      <h1 className="text-3xl font-semibold mb-4">{group.name}</h1>
+
+      <button 
+        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md mb-4"
+        onClick={() => setShowMembers(!showMembers)}
+      >
+        {showMembers ? 'Hide Members' : 'Show Members'}
+      </button>
+      
+      {showMembers && (
+        <ul className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 w-80">
+          {group.members.map((member) => (
+            <li key={member._id} className="p-2 border-b dark:border-gray-700">
+              {member.name}
+            </li>
+          ))}
+        </ul>
+      )}
+
+      <AddMemberButton groupId={group._id} />
     </div>
   );
 }
+
+

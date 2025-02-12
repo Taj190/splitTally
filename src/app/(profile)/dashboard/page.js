@@ -18,26 +18,21 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen p-6 flex flex-col md:flex-row bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
-    {/* Left Sidebar - Group List */}
-  
-    {/* Main Dashboard Content */}
-    <div className="flex-1 flex flex-col justify-start items-center p-4">
-      <div className="w-full max-w-4xl flex flex-col sm:flex-row justify-between items-center p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
-        <h1 className="text-2xl font-semibold text-center sm:text-left">
-          Welcome to SplitTally, {session ? session.user.name : user?.name}!
-        </h1>
-  
-        <div className="mt-4 sm:mt-0">
-          <CreateGroupButton />
-        </div>
-      </div>
+    <div className="min-h-screen p-4 flex flex-col items-center bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+    {/* Welcome Section */}
+    <div className="w-full max-w-4xl flex flex-col justify-center items-center p-4 bg-white dark:bg-gray-800 shadow-md rounded-lg">
+      <h1 className="text-xl sm:text-2xl font-semibold text-center">
+        Welcome to SplitTally, {session?.user?.name || user.name}!
+      </h1>
     </div>
-
-    <div className="w-full md:w-1/3 max-w-sm p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-y-auto">
+  
+    {/* Group List Section */}
+    <div className="w-full md:w-1/3 max-w-sm p-4 mt-6">
       <GroupList />
     </div>
   </div>
+  
+
   
   );
 }

@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 
 
-const CreateGroupButton = () => {
+const CreateGroupButton = ({fetchGroups}) => {
   const { data: session } = useSession();
   const [groupName, setGroupName] = useState('');
   const [showInput, setShowInput] = useState(false);
@@ -26,13 +26,12 @@ const CreateGroupButton = () => {
         { groupName },
         { headers, withCredentials: true }
       );
-       console.log(res.data)
       if (res.data.success) {
         toast.success('Group created successfully!');
         setGroups([...groups, res.data.group]);
         setGroupName('');
         setShowInput(false);
-        router.push(`/dashboard/${res.data.group.name}`);
+        fetchGroups()
       }
       
     } catch (error) {
@@ -82,18 +81,7 @@ const CreateGroupButton = () => {
       </div>
     )}
   
-    {/* Group List */}
-    <div className="mt-4">
-      {groups.map((group) => (
-        <a
-          key={group._id}
-          href={`/dashboard/${group.name}`}
-          className="block p-2 text-blue-600 hover:text-blue-800 dark:text-blue-300 dark:hover:text-blue-400 transition-all"
-        >
-          {group.name}
-        </a>
-      ))}
-    </div>
+   
   </div>
   
   );

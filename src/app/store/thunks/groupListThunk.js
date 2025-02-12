@@ -8,7 +8,6 @@ export const fetchGroups = createAsyncThunk(
             const headers = token
             ? { Authorization: `Bearer ${token}` }
             : { credentials: "include" };
-    console.log(headers)
           const response = await axios.get(
             `http://localhost:8080/group/list?page=${page}`,
             { headers, withCredentials: true }

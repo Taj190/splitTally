@@ -20,7 +20,6 @@ export const useSaveUserData = (user, router) => {
 
   const saveUserData = useCallback(async () => {
     try {
-      console.log(user.accessToken)
       const response = await axios.post(
         'http://localhost:8080/user/sign-up',
         {

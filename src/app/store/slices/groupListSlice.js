@@ -20,7 +20,6 @@ const GroupSlice = createSlice({
 
     })
     .addCase(fetchGroups.fulfilled , (state , action)=>{
-        console.log('Fetched groups:', action.payload);
         state.loading = false; 
         state.groups = action.payload.groups || [];
         state.totalPages = action.payload.totalPages; 
