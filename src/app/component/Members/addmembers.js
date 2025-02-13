@@ -1,29 +1,77 @@
-import { useState } from "react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-export default function AddMemberButton() {
+export default function AddMemberButton({groupId}) {
   const [isAdding, setIsAdding] = useState(false);
   const [email, setEmail] = useState("");
   const [code, setCode] = useState("");
+  const [loading , setLoading] = useState(false)
+  const { data: session, status } = useSession();
+  const [authHeader, setAuthHeader] = useState({});
 
-  const handleGetCode = () => {
+  useEffect(() => {
+    if (session?.user) {
+      setAuthHeader(session.user.idToken ? { Authorization: `Bearer ${session.user.idToken}` } : {});
+    }
+  }, [session]);
+
+  const handleGetCode = async () => {
+    setLoading(true)
     try {
-        const response = axios.post('http://localhost:8080/code/addmember', { email });
-        if (response.data.success) {
-          toast.success(response.data.message);
-          setCodeSent(true);
+      const response = await axios.post(
+        "http://localhost:8080/code/addmember",
+        { email },
+        {
+          withCredentials: true, // Needed for email/password users
+          headers: authHeader, // Needed for Google-authenticated users
         }
-       
-      } catch (error) {
+      );
+    
+      if (response.data.success) {
+        
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+        console.log(error)
           if (error.response && error.response.data && error.response.data.message) {
               toast.error(error.response.data.message); 
             } else {
               toast.error('Failed to send verification code. Please try again later.');
             }
+      }finally{
+        setLoading(false)
       }
   };
 
-  const handleAddMember = () => {
-    console.log("Adding member with email and code:", { email, code });
+  const handleAddMember = async() => {
+    setLoading(true)
+    try {
+      const response = await axios.post(
+        "http://localhost:8080/send/invitation",
+        { email, code , groupId },
+        {
+          withCredentials: true, // Needed for email/password users
+          headers: authHeader, // Needed for Google-authenticated users
+        }
+      );
+    
+      if (response.data.success) {
+        setEmail("");
+        setCode("")
+        toast.success(response.data.message);
+      }
+    } catch (error) {
+        console.log(error)
+          if (error.response && error.response.data && error.response.data.message) {
+              toast.error(error.response.data.message); 
+            } else {
+              toast.error('Failed to send verification code. Please try again later.');
+            }
+      }finally{
+        setLoading(false)
+      }
     // Send payload to backend
   };
 
@@ -53,19 +101,22 @@ export default function AddMemberButton() {
               onChange={(e) => setCode(e.target.value)}
               className="p-2 border rounded-md w-40"
             />
-            <button
-              onClick={handleGetCode}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg shadow-md hover:bg-green-700"
-            >
-              Get Code
-            </button>
+          <button
+        onClick={handleGetCode}
+        disabled={loading}
+       className={`px-4 py-2 rounded-lg shadow-md ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"}`}
+       >
+     {loading ? "Wait..." : "Get Code"}
+      </button>
+
           </div>
           <div className="flex space-x-2">
             <button
               onClick={handleAddMember}
-              className="px-4 py-2 bg-blue-600 text-white rounded-lg shadow-md hover:bg-blue-700"
-            >
-              Add
+              disabled={loading}
+              className={`px-4 py-2 rounded-lg shadow-md ${loading ? "bg-gray-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
+              >
+            {loading ? "Wait..." : "Add"}
             </button>
             <button
               onClick={() => setIsAdding(false)}

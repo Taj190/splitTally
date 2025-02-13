@@ -72,7 +72,7 @@ export default function GroupDetails() {
         </ul>
       )}
 
-      <AddMemberButton groupId={group._id} />
+      <AddMemberButton groupId={_id} />
     </div>
   );
 }
