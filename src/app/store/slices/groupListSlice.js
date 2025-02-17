@@ -11,7 +11,11 @@ const initialState={
 const GroupSlice = createSlice({
     name : 'groups',
      initialState,
-    reducers: {},
+    reducers: {
+        selectGroup: (state, action) => {
+            state.selectedGroup = action.payload;
+        },
+    },
     extraReducers:(builder)=>{
     builder
     .addCase( fetchGroups.pending , (state)=>{

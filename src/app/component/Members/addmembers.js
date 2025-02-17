@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
 export default function AddMemberButton({groupId}) {
@@ -10,6 +11,10 @@ export default function AddMemberButton({groupId}) {
   const [loading , setLoading] = useState(false)
   const { data: session, status } = useSession();
   const [authHeader, setAuthHeader] = useState({});
+  const user = useSelector((state)=>state.auth.user)
+  const name = session?.user?.name || user?.name || "";
+
+
 
   useEffect(() => {
     if (session?.user) {
@@ -22,7 +27,7 @@ export default function AddMemberButton({groupId}) {
     try {
       const response = await axios.post(
         "http://localhost:8080/code/addmember",
-        { email },
+        { email , groupId},
         {
           withCredentials: true, // Needed for email/password users
           headers: authHeader, // Needed for Google-authenticated users
@@ -30,7 +35,6 @@ export default function AddMemberButton({groupId}) {
       );
     
       if (response.data.success) {
-        
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -50,7 +54,7 @@ export default function AddMemberButton({groupId}) {
     try {
       const response = await axios.post(
         "http://localhost:8080/send/invitation",
-        { email, code , groupId },
+        { email, code , groupId , name },
         {
           withCredentials: true, // Needed for email/password users
           headers: authHeader, // Needed for Google-authenticated users

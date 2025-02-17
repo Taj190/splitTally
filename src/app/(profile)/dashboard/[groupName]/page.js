@@ -6,6 +6,7 @@ import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { useParams } from "next/navigation";
 import AddMemberButton from '@/app/component/Members/addmembers';
+import ToggleButton from '@/app/component/ToogleBtnForPrivacy/PrivacyMode';
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
@@ -16,14 +17,12 @@ export default function GroupDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showMembers, setShowMembers] = useState(false);
-
   const groups = useSelector((state) => state.groups.groups);
   const groupDetail = groups.find((group) => group.name === groupName);
   const _id = groupDetail?._id;
 
   useEffect(() => {
     if (!groupName || status === 'loading') return;
-
     const fetchGroup = async () => {
       try {
         let headers = {};
@@ -73,6 +72,7 @@ export default function GroupDetails() {
       )}
 
       <AddMemberButton groupId={_id} />
+      <ToggleButton/>
     </div>
   );
 }
