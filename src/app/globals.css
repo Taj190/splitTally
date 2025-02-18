@@ -27,3 +27,27 @@ html.dark body {
   background-color: #2d3748; /* Dark background */
   color: white; /* Light text */
 }
+
+/* 🎨 Custom Button Styles */
+.btn-gradient {
+  @apply bg-gradient-to-r from-purple-500 via-pink-500 to-red-500 
+         text-white font-semibold py-2 px-4 rounded-md 
+         shadow-lg hover:shadow-xl 
+         active:shadow-inner 
+         transform active:scale-95 transition-all;
+}
+.btn-unique {
+  @apply bg-gradient-to-r from-teal-400 via-cyan-500 to-blue-600 
+         text-white font-semibold py-2 px-6 rounded-lg 
+         shadow-md hover:shadow-2xl 
+         active:shadow-inner 
+         transform active:scale-95 transition-all;
+}
+
+.btn-warm {
+  @apply bg-gradient-to-r from-orange-500 via-yellow-500 to-amber-600 
+         text-white font-semibold py-2 px-6 rounded-lg 
+         shadow-sm hover:shadow-lg 
+         active:shadow-inner 
+         transform active:scale-95 transition-all;
+}

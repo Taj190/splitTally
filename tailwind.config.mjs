@@ -11,8 +11,12 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      boxShadow: {
+        pressed: "inset 2px 2px 5px rgba(0, 0, 0, 0.2), inset -2px -2px 5px rgba(255, 255, 255, 0.2)",
+      },
     },
   },
-  darkMode: 'class',  // This enables dark mode with the 'class' strategy
+  darkMode: "class",
   plugins: [],
 };
+

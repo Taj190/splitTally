@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { useParams } from "next/navigation";
 import AddMemberButton from '@/app/component/Members/addmembers';
 import ToggleButton from '@/app/component/ToogleBtnForPrivacy/PrivacyMode';
+import AddTransaction from '@/app/component/AddTransaction/AddTransaction';
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
@@ -51,29 +52,51 @@ export default function GroupDetails() {
   if (!group) return <p>No group found.</p>;
 
   return (
-<div className="flex flex-col items-center justify-center  p-6">
-      <h1 className="text-3xl font-semibold mb-4">{group.name}</h1>
+<div className="relative flex flex-col items-center justify-center p-1 space-y-5 sm:space-y-4 w-full">
+  {/* Header Wrapper for Show Members, Group Name, and Toggle */}
+  <div className="relative flex  justify-between w-full max-w-lg">
+    {/* Show Members Button on the left */}
+    <button className="btn-warm mr-4" onClick={() => setShowMembers(!showMembers)}>
+      {showMembers ? "Hide Members" : "Show Members"}
+    </button>
 
-      <button 
-        className="bg-blue-500 text-white px-4 py-2 rounded-lg shadow-md mb-4"
-        onClick={() => setShowMembers(!showMembers)}
-      >
-        {showMembers ? 'Hide Members' : 'Show Members'}
-      </button>
-      
-      {showMembers && (
-        <ul className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 w-80">
-          {group.members.map((member) => (
-            <li key={member._id} className="p-2 border-b dark:border-gray-700">
-              {member.name}
-            </li>
-          ))}
-        </ul>
-      )}
+    {/* Group Name centered */}
+    <h1 className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-semibold ml-5">
+      {group.name}
+    </h1>
 
-      <AddMemberButton groupId={_id} />
-      <ToggleButton/>
+    {/* Toggle Button on the top-right */}
+    <div className="absolute top-0 right-0 p-0">
+      <ToggleButton />
     </div>
+  </div>
+
+  {/* Show Members List */}
+  {showMembers && (
+    <ul className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-4 w-80">
+      {group.members.map((member) => (
+        <li key={member._id} className="p-2 border-b dark:border-gray-700">
+          {member.name}
+        </li>
+      ))}
+    </ul>
+  )}
+
+  {/* Wrapper for Add Member and Add Transaction Buttons */}
+  <div className="flex justify-between w-full max-w-lg">
+    {/* Add Member Button on the left */}
+    <div>
+      <AddMemberButton groupId={_id} />
+    </div>
+
+    {/* Add Transaction Button on the right */}
+    <div>
+      <AddTransaction />
+    </div>
+  </div>
+</div>
+
+
   );
 }
 
