@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import AddMemberButton from '@/app/component/Members/addmembers';
 import ToggleButton from '@/app/component/ToogleBtnForPrivacy/PrivacyMode';
 import AddTransaction from '@/app/component/AddTransaction/AddTransaction';
+import TransactionTable from '@/app/component/AddTransaction/TransActionDetail';
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
@@ -56,9 +57,18 @@ export default function GroupDetails() {
   {/* Header Wrapper for Show Members, Group Name, and Toggle */}
   <div className="relative flex  justify-between w-full max-w-lg">
     {/* Show Members Button on the left */}
-    <button className="btn-warm mr-4" onClick={() => setShowMembers(!showMembers)}>
-      {showMembers ? "Hide Members" : "Show Members"}
-    </button>
+    <button
+  onClick={() => setShowMembers(!showMembers)}
+  className="flex flex-col items-center justify-center"
+>
+  <div className="w-6 h-6 flex items-center justify-center bg-gray-300 text-black text-lg font-bold rounded-full">
+    👥
+  </div>
+  <span className="text-green-500 text-[6px] mt-1">
+    {showMembers ? "Hide Members" : "Show Members"}
+  </span>
+</button>
+
 
     {/* Group Name centered */}
     <h1 className="absolute left-1/2 transform -translate-x-1/2 text-3xl font-semibold ml-5">
@@ -94,6 +104,7 @@ export default function GroupDetails() {
       <AddTransaction />
     </div>
   </div>
+  <TransactionTable/>
 </div>
 
 

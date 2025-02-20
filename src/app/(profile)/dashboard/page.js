@@ -8,7 +8,6 @@ export default function Home() {
   const { data: session, status } = useSession(); // Google Auth
   const user = useSelector((state) => state.auth.user); // Redux state for email/password auth
   const isLoggedIn = useSelector((state) => state.auth.isAuthenticated); // Check if user is logged in via Redux
-
   if (status === 'loading') {
     return <p className="text-center text-gray-500 dark:text-gray-400">Loading...</p>;
   }

@@ -8,7 +8,9 @@ export const loginUser = createAsyncThunk(
         email,
         password,
       },{ withCredentials: true } );
+      console.log(response.data)
     if(response.data.success){
+     
       const userData = response.data.name
       return { user: { name: userData } };
 

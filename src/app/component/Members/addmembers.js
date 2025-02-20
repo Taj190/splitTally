@@ -82,20 +82,25 @@ export default function AddMemberButton({groupId}) {
   return (
     <div className="flex flex-col items-center justify-center mt-4">
       {!isAdding ? (
-        <button
-          onClick={() => setIsAdding(true)}
-          className="btn-unique"
-        >
-          Add Member
-        </button>
+      <button
+      onClick={() => setIsAdding(true)}
+      className="flex flex-col items-center justify-center"
+    >
+      <div className="w-6 h-6 flex items-center justify-center bg-gray-300 rounded-full text-black text-lg font-bold">
+        +
+      </div>
+      <span className="text-[6px] text-green-500 mt-1">Add Member</span>
+    </button>
+    
       ) : (
-        <div className="flex flex-col space-y-2 p-4 border rounded-lg shadow-md bg-white dark:bg-gray-800">
+        <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center z-50">
+        <div className="flex flex-col space-y-2 p-4 border rounded-lg shadow-md bg-white dark:bg-gray-800 w-80">
           <input
             type="email"
             placeholder="Enter email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="p-2 border rounded-md w-64"
+            className="p-2 border rounded-md w-full"
           />
           <div className="flex space-x-2">
             <input
@@ -103,24 +108,27 @@ export default function AddMemberButton({groupId}) {
               placeholder="Enter code"
               value={code}
               onChange={(e) => setCode(e.target.value)}
-              className="p-2 border rounded-md w-40"
+              className="p-2 border rounded-md w-full"
             />
-          <button
-        onClick={handleGetCode}
-        disabled={loading}
-       className={`px-4 py-2 rounded-lg shadow-md ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"}`}
-       >
-     {loading ? "Wait..." : "Get Code"}
-      </button>
-
+            <button
+              onClick={handleGetCode}
+              disabled={loading}
+              className={`px-4 py-2 rounded-lg shadow-md ${
+                loading ? "bg-gray-400 cursor-not-allowed" : "bg-green-600 hover:bg-green-700 text-white"
+              }`}
+            >
+              {loading ? "Wait..." : "Get Code"}
+            </button>
           </div>
           <div className="flex space-x-2">
             <button
               onClick={handleAddMember}
               disabled={loading}
-              className={`px-4 py-2 rounded-lg shadow-md ${loading ? "bg-gray-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"}`}
-              >
-            {loading ? "Wait..." : "Add"}
+              className={`px-4 py-2 rounded-lg shadow-md ${
+                loading ? "bg-gray-600 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+              }`}
+            >
+              {loading ? "Wait..." : "Add"}
             </button>
             <button
               onClick={() => setIsAdding(false)}
@@ -130,6 +138,7 @@ export default function AddMemberButton({groupId}) {
             </button>
           </div>
         </div>
+      </div>
       )}
     </div>
   );

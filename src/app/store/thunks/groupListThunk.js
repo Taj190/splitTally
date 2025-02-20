@@ -12,6 +12,7 @@ export const fetchGroups = createAsyncThunk(
             `http://localhost:8080/group/list?page=${page}`,
             { headers, withCredentials: true }
           );
+         
           return response.data; // Return the fetched group data
         } catch (error) {
             console.log(error)
