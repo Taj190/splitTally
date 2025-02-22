@@ -14,48 +14,58 @@ const ToggleButton = () => {
   const _id = groupDetail?._id;
   const [showLearnMore, setShowLearnMore] = useState(false);
   const [privacyMode, setIsPrivate] = useState();
+  const [attemptsLeft, setAttemptsLeft] = useState(3);
+  const [lastUpdatedBy, setLastUpdatedBy] = useState(null);
+  const [daysUntilReset, setDaysUntilReset] = useState(null);
   const { data: session } = useSession();
   let token = session?.user?.idToken || null;
   const headers = token
-  ? { Authorization: `Bearer ${token}` }
-  : { credentials: "include" };
+    ? { Authorization: `Bearer ${token}` }
+    : { credentials: "include" };
 
   useEffect(() => {
-  
-      const fetchPrivacyMode = async () => {
-        try {
-          const response = await axios.get(
-            `http://localhost:8080/mode/status?groupId=${_id}`,
-            {
-              withCredentials: true,
-              headers
-            }
-          );
-          setIsPrivate(response.data.privacyMode);
-        } catch (error) {
-          console.error("Failed to fetch privacy mode:", error);
-        }
-      };
-  
-      fetchPrivacyMode();
-  }, [session , _id]);
+    const fetchPrivacyMode = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:8080/mode/status?groupId=${_id}`,
+          {
+            withCredentials: true,
+            headers,
+          }
+        );
+        setIsPrivate(response.data.privacyMode);
+        setAttemptsLeft(response.data.attemptsLeft);
+        setLastUpdatedBy(response.data.lastUpdatedBy);
+        setDaysUntilReset(response.data.daysUntilReset);
+      } catch (error) {
+        console.error("Failed to fetch privacy mode:", error);
+      }
+    };
+
+    fetchPrivacyMode();
+  }, [session, _id]);
 
   const handleToggle = async () => {
+    if (attemptsLeft === 0) return;
+
     const newValue = !privacyMode;
     setIsPrivate(newValue);
-     
+
     try {
       const response = await axios.put(
         "http://localhost:8080/privacymode/toggle",
         { groupId: _id, privacyMode: newValue },
         {
           withCredentials: true,
-          headers
+          headers,
         }
       );
 
       if (response.data.success) {
         toast.success(response.data.message);
+        setAttemptsLeft(response.data.attemptsLeft);
+        setLastUpdatedBy(response.data.lastUpdatedBy);
+        setDaysUntilReset(response.data.daysUntilReset);
       }
     } catch (error) {
       setIsPrivate(!newValue);
@@ -68,12 +78,13 @@ const ToggleButton = () => {
   };
 
   return (
-    <div>
+    <div >
       <button
         onClick={handleToggle}
+        disabled={attemptsLeft === 0}
         className={`relative w-16 h-8 bg-gray-300 rounded-full p-1 flex items-center transition-all ${
           privacyMode ? "bg-green-500" : "bg-gray-300"
-        }`}
+        } ${attemptsLeft === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
       >
         <div
           className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
@@ -81,9 +92,8 @@ const ToggleButton = () => {
           }`}
         />
       </button>
-
       <div className="flex items-center justify-center mt-1 gap-1">
-        <span className="text-[8px] text-red-500">Privacy Mode</span>
+      <span className="text-[8px] text-red-500">Privacy Mode</span>
         <div
           className="relative flex items-center justify-center w-3 h-3 bg-gray-400 text-white text-[5px] font-bold rounded-full cursor-pointer"
           onMouseEnter={() => setShowLearnMore(true)}
@@ -98,6 +108,15 @@ const ToggleButton = () => {
           )}
         </div>
       </div>
+      {lastUpdatedBy && (
+  <span className="text-[10px] mt-1  dark:text-white light:text-brown-500">
+    (Last updated by: {lastUpdatedBy})
+  </span>
+)}
+
+      {attemptsLeft === 0 && daysUntilReset && (
+        <p className="text-[10px] text-blue-800">Blocked for {daysUntilReset} days</p>
+      )}
     </div>
   );
 };

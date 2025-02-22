@@ -53,7 +53,7 @@ export default function GroupDetails() {
   if (!group) return <p>No group found.</p>;
 
   return (
-<div className="relative flex flex-col items-center justify-center p-1 space-y-5 sm:space-y-4 w-full">
+<div className="relative flex flex-col items-center justify-center  space-y-5 sm:space-y-4 w-full">
   {/* Header Wrapper for Show Members, Group Name, and Toggle */}
   <div className="relative flex  justify-between w-full max-w-lg">
     {/* Show Members Button on the left */}
@@ -93,7 +93,7 @@ export default function GroupDetails() {
   )}
 
   {/* Wrapper for Add Member and Add Transaction Buttons */}
-  <div className="flex justify-between w-full max-w-lg">
+  <div className="flex justify-between w-full max-w-lg pt-4">
     {/* Add Member Button on the left */}
     <div>
       <AddMemberButton groupId={_id} />

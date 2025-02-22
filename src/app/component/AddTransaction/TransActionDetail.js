@@ -9,6 +9,7 @@ import { useParams } from 'next/navigation';
 import { toast } from 'react-toastify';
 import EditTransactionModal from './TransActionModelforUpdation/editModel';
 import DeleteTransactionModal from './TransActionModelforUpdation/deleteModel';
+import Link from 'next/link';
 
 
 const TransactionTable = () => {
@@ -70,7 +71,7 @@ const TransactionTable = () => {
     fetchTransactions();
   }, [session,  page, groupName , totalPages]);
 
-console.log(userId)
+
   return (
     <div className="overflow-x-auto p-4 w-full max-w-4xl mx-auto">
       <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
@@ -94,7 +95,18 @@ console.log(userId)
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.amount}</td>
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.initiator.name}</td>
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{new Date(transaction.date).toLocaleDateString()}</td>
-                <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 capitalize">{transaction.status}</td>
+                <td className="p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
+               {transaction.status === "pending" ? (
+               <Link
+               href={`/dashboard/${groupName}/pendingInfo?transactionId=${transaction._id}`}
+               className="text-blue-500 underline hover:text-blue-700"
+                >
+              {transaction.status}
+              </Link>
+              ) : (
+               transaction.status
+               )}
+                </td>
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 flex gap-2">
                   {isInitiator ? (
                     <>
@@ -128,8 +140,6 @@ console.log(userId)
                 </td>
               </tr>
             );
-
-
           })}
         </tbody>
       </table>

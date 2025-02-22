@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FaShieldAlt, FaCheckCircle, FaTimesCircle, FaArrowLeft } from "react-icons/fa";
+import { FaShieldAlt, FaCheckCircle, FaTimesCircle, FaArrowLeft, FaRegClock } from "react-icons/fa";
 
 export default function LearnMore({ params }) {
   const router = useRouter();
@@ -41,6 +41,22 @@ export default function LearnMore({ params }) {
         <ul className="list-disc list-inside text-gray-600 dark:text-gray-300">
           <li>The expense is **immediately added**.</li>
           <li>Members receive a **notification**, but no approval is required.</li>
+        </ul>
+      </div>
+
+      <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-6">
+        <h2 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">
+          <FaRegClock className="text-yellow-500 mr-2 inline" />
+          **When Transaction is Pending**:
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          If a transaction is marked as "pending", you can click on the "pending" label to learn more about the approval process and see who has approved, canceled, or yet to take action on the transaction.
+        </p>
+
+        <ul className="list-disc list-inside text-gray-600 dark:text-gray-300">
+          <li>**Approved Users**: List of members who have approved the transaction.</li>
+          <li>**Pending Users**: List of members who still need to approve or cancel the transaction.</li>
+          <li>**Action History**: See who has taken action (approve/cancel) and why the transaction is still pending.</li>
         </ul>
       </div>
 
