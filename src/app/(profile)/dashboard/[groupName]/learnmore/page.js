@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { FaShieldAlt, FaCheckCircle, FaTimesCircle, FaArrowLeft, FaRegClock } from "react-icons/fa";
+import { FaShieldAlt, FaCheckCircle, FaTimesCircle, FaArrowLeft, FaRegClock, FaExclamationTriangle } from "react-icons/fa";
 
 export default function LearnMore({ params }) {
   const router = useRouter();
@@ -60,6 +60,22 @@ export default function LearnMore({ params }) {
         </ul>
       </div>
 
+      <div className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg mb-6">
+        <h2 className="text-lg font-semibold text-gray-700 dark:text-white mb-2">
+          <FaExclamationTriangle className="text-orange-500 mr-2 inline" />
+          **Privacy Mode Toggle Limits**:
+        </h2>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          You can change the Privacy Mode up to **3 times per month**. Once this limit is reached, Privacy Mode toggling will be **blocked for the next 30 days**.
+        </p>
+        <p className="text-gray-600 dark:text-gray-300 mb-4">
+          This restriction is in place to **prevent misuse** and **ensure stability** in shared financial management. Frequent changes can cause confusion and disputes among group members regarding expense approvals and settlements.
+        </p>
+        <p className="text-gray-600 dark:text-gray-300">
+          After 30 days, you will be able to **toggle Privacy Mode again**.
+        </p>
+      </div>
+
       <p className="text-gray-600 dark:text-gray-300">
         Privacy Mode **ensures fair splitting** and prevents unauthorized expenses in shared living situations.
       </p>
@@ -73,3 +89,4 @@ export default function LearnMore({ params }) {
     </div>
   );
 }
+

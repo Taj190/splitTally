@@ -23,7 +23,7 @@ const ToggleButton = () => {
     ? { Authorization: `Bearer ${token}` }
     : { credentials: "include" };
 
-  useEffect(() => {
+
     const fetchPrivacyMode = async () => {
       try {
         const response = await axios.get(
@@ -33,6 +33,7 @@ const ToggleButton = () => {
             headers,
           }
         );
+        console.log(response.data)
         setIsPrivate(response.data.privacyMode);
         setAttemptsLeft(response.data.attemptsLeft);
         setLastUpdatedBy(response.data.lastUpdatedBy);
@@ -41,7 +42,8 @@ const ToggleButton = () => {
         console.error("Failed to fetch privacy mode:", error);
       }
     };
-
+    console.log(lastUpdatedBy)
+  useEffect(() => {
     fetchPrivacyMode();
   }, [session, _id]);
 
@@ -66,6 +68,7 @@ const ToggleButton = () => {
         setAttemptsLeft(response.data.attemptsLeft);
         setLastUpdatedBy(response.data.lastUpdatedBy);
         setDaysUntilReset(response.data.daysUntilReset);
+        fetchPrivacyMode();
       }
     } catch (error) {
       setIsPrivate(!newValue);
@@ -78,46 +81,55 @@ const ToggleButton = () => {
   };
 
   return (
-    <div >
-      <button
-        onClick={handleToggle}
-        disabled={attemptsLeft === 0}
-        className={`relative w-16 h-8 bg-gray-300 rounded-full p-1 flex items-center transition-all ${
-          privacyMode ? "bg-green-500" : "bg-gray-300"
-        } ${attemptsLeft === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
-      >
-        <div
-          className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
-            privacyMode ? "translate-x-8" : "translate-x-0"
-          }`}
-        />
-      </button>
-      <div className="flex items-center justify-center mt-1 gap-1">
-      <span className="text-[8px] text-red-500">Privacy Mode</span>
-        <div
-          className="relative flex items-center justify-center w-3 h-3 bg-gray-400 text-white text-[5px] font-bold rounded-full cursor-pointer"
-          onMouseEnter={() => setShowLearnMore(true)}
-          onMouseLeave={() => setShowLearnMore(false)}
-          onClick={handleLearnMoreClick}
-        >
-          i
-          {showLearnMore && (
-            <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 text-[5px] bg-gray-800 text-white p-1 rounded">
-              Learn more
-            </div>
-          )}
-        </div>
-      </div>
-      {lastUpdatedBy && (
-  <span className="text-[10px] mt-1  dark:text-white light:text-brown-500">
-    (Last updated by: {lastUpdatedBy})
-  </span>
-)}
+    <div className="flex flex-col items-end w-full">
+    {/* Toggle Button */}
+    <button
+      onClick={handleToggle}
+      disabled={attemptsLeft === 0}
+      className={`relative w-16 h-8 bg-gray-300 rounded-full p-1 flex items-center transition-all ${
+        privacyMode ? "bg-green-500" : "bg-gray-300"
+      } ${attemptsLeft === 0 ? "opacity-50 cursor-not-allowed" : ""}`}
+    >
+      <div
+        className={`w-6 h-6 bg-white rounded-full shadow-md transform transition-all ${
+          privacyMode ? "translate-x-8" : "translate-x-0"
+        }`}
+      />
+    </button>
 
-      {attemptsLeft === 0 && daysUntilReset && (
-        <p className="text-[10px] text-blue-800">Blocked for {daysUntilReset} days</p>
-      )}
+    {/* Privacy Mode Label */}
+    <div className="flex items-center justify-end mt-1 gap-1">
+      <span className="text-[8px] text-red-500">Privacy Mode</span>
+      <div
+        className="relative flex items-center justify-center w-3 h-3 bg-gray-400 text-white text-[5px] font-bold rounded-full cursor-pointer"
+        onMouseEnter={() => setShowLearnMore(true)}
+        onMouseLeave={() => setShowLearnMore(false)}
+        onClick={handleLearnMoreClick}
+      >
+        i
+        {showLearnMore && (
+          <div className="absolute top-full left-1/2 transform -translate-x-1/2 mt-1 text-[5px] bg-gray-800 text-white p-1 rounded">
+            Learn more
+          </div>
+        )}
+      </div>
     </div>
+
+    {/* Last Updated By (always below toggle) */}
+    {lastUpdatedBy && lastUpdatedBy !== "No information" && (
+      <p className="text-[10px] mt-1 text-gray-500 truncate w-[150px] text-right">
+        (Last updated by: {lastUpdatedBy})
+      </p>
+    )}
+
+    {/* Attempts left warning */}
+    {attemptsLeft === 0 && daysUntilReset && (
+      <p className="text-[10px] text-blue-800 text-right">
+        Blocked for {daysUntilReset} days
+      </p>
+    )}
+  </div>
+
   );
 };
 

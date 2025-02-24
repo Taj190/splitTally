@@ -1,5 +1,4 @@
 'use client';
-
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
@@ -9,12 +8,16 @@ import AddMemberButton from '@/app/component/Members/addmembers';
 import ToggleButton from '@/app/component/ToogleBtnForPrivacy/PrivacyMode';
 import AddTransaction from '@/app/component/AddTransaction/AddTransaction';
 import TransactionTable from '@/app/component/AddTransaction/TransActionDetail';
+import GroupTransactionBtn from '@/app/component/TransactionDetailBtn/GroupTransactionBtn';
+import { useRouter } from 'next/navigation';
+import {  FaArrowLeft } from "react-icons/fa";
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
   const params = useParams();
   const groupName = params.groupName;
   const { data: session, status } = useSession();
+   const router = useRouter();
   const [group, setGroup] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -47,7 +50,9 @@ export default function GroupDetails() {
 
     fetchGroup();
   }, [groupName, session, status]);
-
+  const handleGoBack = () => {
+    router.back();
+  };
   if (loading) return <p>Loading...</p>;
   if (error) return <p>{error}</p>;
   if (!group) return <p>No group found.</p>;
@@ -76,7 +81,7 @@ export default function GroupDetails() {
     </h1>
 
     {/* Toggle Button on the top-right */}
-    <div className="absolute top-0 right-0 p-0">
+    <div className=" absolute top-0 right-0 flex flex-col ">
       <ToggleButton />
     </div>
   </div>
@@ -105,6 +110,22 @@ export default function GroupDetails() {
     </div>
   </div>
   <TransactionTable/>
+  <div className="mt-6 flex justify-between w-full max-w-lg gap-2">
+  {/* Go Back Button (Left) */}
+  <div className="mt-3 h-10">
+  <button 
+    onClick={handleGoBack}
+    className="flex items-center justify-center px-4 py-2 h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+  >
+    <FaArrowLeft className="mr-2" /> Go Back
+  </button>
+  </div>
+  {/* Group Transaction Button (Right) */}
+  <div className="flex items-center justify-center h-10">
+    <GroupTransactionBtn />
+  </div>
+</div>
+     
 </div>
 
 
