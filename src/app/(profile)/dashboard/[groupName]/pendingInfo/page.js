@@ -27,7 +27,6 @@ export default function PendingInfoPage() {
       try {
         const res = await axios.get(`http://localhost:8080/transaction/status/${transactionId}`,
          { headers, withCredentials: true, });
-         console.log(res.data)
         setTransaction(res.data);
       
       } catch (err) {

@@ -11,11 +11,15 @@ import { useParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
+import SettlementTransactionBtn from '@/app/component/TransactionSettlementBtn/settlementsuggestion';
+import { useRouter } from 'next/navigation';
+import { FaArrowLeft } from 'react-icons/fa';
 const getRandomColor = () => {
     return `hsl(${Math.floor(Math.random() * 360)}, 70%, 50%)`; 
   }
 const TransactionDetail = () => {
 const params = useParams();
+const router = useRouter();
 const groupName = params.groupName;  
 const { data: session } = useSession();
  const [data, setData] = useState(null);
@@ -52,7 +56,9 @@ if (session?.user?.idToken) {
     // Fetch the transaction details for the group
     fetchTransactions();
   }, [groupId]);
-
+  const handleGoBack = () => {
+    router.back();
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -137,6 +143,24 @@ if (session?.user?.idToken) {
         <div className="flex justify-between py-2 border-b">
           <span>Total Pending</span>
           <span className="text-orange-600 font-semibold">{`$${totalPending.toFixed(2)}`}</span>
+        </div>
+      </div>
+
+
+
+        <div className="mt-6 flex justify-between w-full max-w-lg gap-2">
+        {/* Go Back Button (Left) */}
+        <div className="mt-3 h-10">
+        <button 
+          onClick={handleGoBack}
+          className="flex items-center justify-center px-4 py-2 h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+        >
+          <FaArrowLeft className="mr-2" /> Go Back
+        </button>
+        </div>
+        {/* Group Transaction Button (Right) */}
+        <div className="flex items-center justify-center h-10">
+          <SettlementTransactionBtn />
         </div>
       </div>
     </div>

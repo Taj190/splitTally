@@ -33,7 +33,6 @@ const ToggleButton = () => {
             headers,
           }
         );
-        console.log(response.data)
         setIsPrivate(response.data.privacyMode);
         setAttemptsLeft(response.data.attemptsLeft);
         setLastUpdatedBy(response.data.lastUpdatedBy);

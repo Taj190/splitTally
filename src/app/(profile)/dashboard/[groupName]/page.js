@@ -11,6 +11,7 @@ import TransactionTable from '@/app/component/AddTransaction/TransActionDetail';
 import GroupTransactionBtn from '@/app/component/TransactionDetailBtn/GroupTransactionBtn';
 import { useRouter } from 'next/navigation';
 import {  FaArrowLeft } from "react-icons/fa";
+import ReportComponent from '@/app/component/ReportAnalysis/AiReport';
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
@@ -125,7 +126,7 @@ export default function GroupDetails() {
     <GroupTransactionBtn />
   </div>
 </div>
-     
+     <ReportComponent/> 
 </div>
 
 
