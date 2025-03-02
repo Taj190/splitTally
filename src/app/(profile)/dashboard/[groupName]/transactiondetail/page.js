@@ -22,7 +22,7 @@ const params = useParams();
 const router = useRouter();
 const groupName = params.groupName;  
 const { data: session } = useSession();
- const [data, setData] = useState(null);
+ const [data, setData] = useState();
 const [loading, setLoading] = useState(true)
 const [userColors, setUserColors] = useState({}); 
 const groups = useSelector((state) => state.groups.groups);
@@ -39,6 +39,7 @@ if (session?.user?.idToken) {
         headers,
         withCredentials: true,
       });
+     if(response.data.success){
       const colors = {};
       response.data.contributionArray.forEach((user) => {
         colors[user.name] = getRandomColor();
@@ -46,10 +47,12 @@ if (session?.user?.idToken) {
       setUserColors(colors);
       setData(response.data);
       setLoading(false);
+     }
   
     } catch (error) {
       console.log(error)
-      toast.error("Transaction list is not available due to technical issue");
+      setLoading(false);
+      toast.error("Transaction list is not available ");
     }
   };
   useEffect(() => {
@@ -63,10 +66,12 @@ if (session?.user?.idToken) {
     return <div>Loading...</div>;
   }
 
-  const { contributionArray, totalApproved, totalPending } = data;
-
-  // Pie Chart Data (User Contributions)
-  const pieData = {
+  const contributionArray = data?.contributionArray || [];
+  const totalApproved = data?.totalApproved || 0;
+  const totalPending = data?.totalPending || 0;
+  
+  // Pie Chart Data (User Contributions) - Only if there are contributions
+  const pieData = contributionArray.length > 0 ? {
     labels: contributionArray.map((user) => user.name),
     datasets: [
       {
@@ -75,10 +80,10 @@ if (session?.user?.idToken) {
         hoverOffset: 4,
       },
     ],
-  };
-
-  // Prepare options for Pie chart
-  const barData = {
+  } : null;
+  
+  // Prepare options for Bar Chart - Only if there are contributions
+  const barData = contributionArray.length > 0 ? {
     labels: contributionArray.map((user) => user.name),
     datasets: [
       {
@@ -92,9 +97,10 @@ if (session?.user?.idToken) {
         backgroundColor: "orange",
       },
     ],
-  };
+  } : null;
+  
 
-  return (
+  return data && contributionArray.length > 0 ?(
     <div className="flex flex-col items-center p-4 w-full max-w-2xl mx-auto">
       <h1 className="text-2xl font-semibold mb-4 text-center">Group Transaction Details</h1>
 
@@ -163,6 +169,16 @@ if (session?.user?.idToken) {
           <SettlementTransactionBtn />
         </div>
       </div>
+    </div>
+  ) : (
+    <div className="mt-3 h-10">
+
+      <button
+        onClick={handleGoBack}
+        className="flex items-center justify-center px-4 py-2 h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+      >
+        <FaArrowLeft className="mr-2" /> Go Back
+      </button>
     </div>
   );
 };

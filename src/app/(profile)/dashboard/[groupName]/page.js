@@ -12,6 +12,8 @@ import GroupTransactionBtn from '@/app/component/TransactionDetailBtn/GroupTrans
 import { useRouter } from 'next/navigation';
 import {  FaArrowLeft } from "react-icons/fa";
 import ReportComponent from '@/app/component/ReportAnalysis/AiReport';
+import { toast } from 'react-toastify';
+import ResetDetail from '@/app/component/resetTransactiondeatil/resetDetail';
 // import AddMember from './AddMember';
 
 export default function GroupDetails() {
@@ -23,19 +25,24 @@ export default function GroupDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [showMembers, setShowMembers] = useState(false);
+  const [transactions, setTransactions] = useState([]);
+  const [page, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const[userId , setUserId] = useState()
+
+
   const groups = useSelector((state) => state.groups.groups);
   const groupDetail = groups.find((group) => group.name === groupName);
   const _id = groupDetail?._id;
+  let headers = {};
+  if (session?.user?.idToken) {
+    headers.Authorization = `Bearer ${session.user.idToken}`;
+  }
 
   useEffect(() => {
     if (!groupName || status === 'loading') return;
     const fetchGroup = async () => {
       try {
-        let headers = {};
-        if (session?.user?.idToken) {
-          headers.Authorization = `Bearer ${session.user.idToken}`;
-        }
-
         const res = await axios.get(`http://localhost:8080/group/detail?_id=${_id}`, {
           headers,
           withCredentials: true,
@@ -48,9 +55,33 @@ export default function GroupDetails() {
         setLoading(false);
       }
     };
-
+   
     fetchGroup();
   }, [groupName, session, status]);
+
+  const fetchTransactions = async () => {
+    try {
+      const res = await axios.get(`http://localhost:8080/transactions/detail?groupId=${_id}&page=${page}`, {
+        headers,
+        withCredentials: true,
+      });
+
+    setUserId(res.data.userId)
+    setTransactions(res.data.transactions);
+    setTotalPages(res.data.totalPages)
+  
+    } catch (error) {
+      console.log(error)
+    }
+  };
+
+  useEffect(() => {
+    fetchTransactions();
+  }, [session,  page, groupName , totalPages]);
+
+
+
+
   const handleGoBack = () => {
     router.back();
   };
@@ -107,10 +138,20 @@ export default function GroupDetails() {
 
     {/* Add Transaction Button on the right */}
     <div>
-      <AddTransaction />
+      <AddTransaction
+        fetchTransactions={fetchTransactions}
+      />
     </div>
   </div>
-  <TransactionTable/>
+  <ResetDetail/>
+  <TransactionTable
+          transactions={transactions}
+          fetchTransactions={fetchTransactions}
+          page={page}
+          setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          userId={userId } 
+  />
   <div className="mt-6 flex justify-between w-full max-w-lg gap-2">
   {/* Go Back Button (Left) */}
   <div className="mt-3 h-10">

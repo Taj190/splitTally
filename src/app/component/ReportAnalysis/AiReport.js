@@ -24,7 +24,6 @@ if (session?.user?.idToken) {
         // Fetch the status when the component mounts
         const fetchStatus = async () => {
             try {
-                console.log(groupId)
                 const response = await axios.get(`http://localhost:8080/report/eligibility/${groupId}`, 
                     { headers,
                     withCredentials: true,});

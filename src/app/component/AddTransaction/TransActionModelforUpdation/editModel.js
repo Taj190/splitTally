@@ -13,7 +13,6 @@ const EditTransactionModal = ({ transactionId, onClose, onSuccess }) => {
   if (session?.user?.idToken) {
     headers.Authorization = `Bearer ${session.user.idToken}`;
   }
- console.log(transactionId)
   // Fetch transaction details when modal opens
   useEffect(() => {
     const fetchTransactionDetails = async () => {

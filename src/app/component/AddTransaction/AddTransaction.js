@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
 
-const AddTransaction = () => {
+const AddTransaction = ( {fetchTransactions}) => {
   const params = useParams();
   const groupName = params.groupName;  
   const [showForm, setShowForm] = useState(false);
@@ -38,6 +38,7 @@ const AddTransaction = () => {
         setDescription("");
         setAmount("");
         setShowForm(false);
+        fetchTransactions()
       }
     } catch (error) {
       toast.error("Failed to add transaction. Please try again.");

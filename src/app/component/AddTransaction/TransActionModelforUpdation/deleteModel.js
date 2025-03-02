@@ -9,7 +9,6 @@ const DeleteTransactionModal = ({ transactionId, onClose, onSuccess }) => {
     if (session?.user?.idToken) {
       headers.Authorization = `Bearer ${session.user.idToken}`;
     }
-     console.log(transactionId , ' here is the id')
   const handleDelete = async () => {
     try {
      const res= await axios.delete(`http://localhost:8080/delete/transaction/${transactionId}`,{headers,withCredentials: true,});

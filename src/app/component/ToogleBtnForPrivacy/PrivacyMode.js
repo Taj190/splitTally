@@ -41,7 +41,6 @@ const ToggleButton = () => {
         console.error("Failed to fetch privacy mode:", error);
       }
     };
-    console.log(lastUpdatedBy)
   useEffect(() => {
     fetchPrivacyMode();
   }, [session, _id]);
@@ -64,9 +63,6 @@ const ToggleButton = () => {
 
       if (response.data.success) {
         toast.success(response.data.message);
-        setAttemptsLeft(response.data.attemptsLeft);
-        setLastUpdatedBy(response.data.lastUpdatedBy);
-        setDaysUntilReset(response.data.daysUntilReset);
         fetchPrivacyMode();
       }
     } catch (error) {

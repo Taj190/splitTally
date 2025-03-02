@@ -12,17 +12,13 @@ import DeleteTransactionModal from './TransActionModelforUpdation/deleteModel';
 import Link from 'next/link';
 
 
-const TransactionTable = () => {
+const TransactionTable = ({ transactions, fetchTransactions, page, setCurrentPage, totalPages, userId }) => {
   const params = useParams();
   const groupName = params.groupName;  
   const { data: session } = useSession();
-  const [transactions, setTransactions] = useState([]);
-  const [page, setCurrentPage] = useState(1);
   const groups = useSelector((state) => state.groups.groups);
   const groupDetail = groups.find((group) => group.name === groupName);
   const _id = groupDetail?._id;
-  const[userId , setUserId] = useState()
-  const [totalPages , setTotalPages]= useState()
   const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   let headers = {};
@@ -30,22 +26,7 @@ const TransactionTable = () => {
     headers.Authorization = `Bearer ${session.user.idToken}`;
   }
 
-  const fetchTransactions = async () => {
-    try {
-      const res = await axios.get(`http://localhost:8080/transactions/detail?groupId=${_id}&page=${page}`, {
-        headers,
-        withCredentials: true,
-      });
 
-    setUserId(res.data.userId)
-    setTransactions(res.data.transactions);
-    setTotalPages(res.data.totalPages)
-  
-    } catch (error) {
-      console.log(error)
-      toast.error("Transaction list is not available due to technical issue");
-    }
-  };
   const updateTransactionStatus = async (transactionId, status) => {
     try {
       const response = await axios.post(
@@ -67,9 +48,6 @@ const TransactionTable = () => {
     }
   };
   
-  useEffect(() => {
-    fetchTransactions();
-  }, [session,  page, groupName , totalPages]);
 
 
   return (

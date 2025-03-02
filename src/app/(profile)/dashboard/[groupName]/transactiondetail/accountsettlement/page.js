@@ -6,6 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
 import { FaArrowLeft } from "react-icons/fa";
+import ResetTransactionBtn from "@/app/component/ResetTransaction/resetBtn";
 
 export default function SettlementTable() {
   const params = useParams();
@@ -95,14 +96,23 @@ export default function SettlementTable() {
           </div>
         ))}
       </div>
-         <div className="mt-3 h-10">
-              <button 
-                onClick={handleGoBack}
-                className="flex items-center justify-center px-4 py-2 h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
-              >
-                <FaArrowLeft className="mr-2" /> Go Back
-              </button>
-              </div>
+      <div className="mt-3 flex justify-between items-center w-full max-w-lg">
+  {/* Go Back Button (Left) */}
+  <div>
+    <button 
+      onClick={handleGoBack}
+      className="flex items-center justify-center px-4 py-2 h-10 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg shadow-md transition"
+    >
+      <FaArrowLeft className="mr-2" /> Go Back
+    </button>
+  </div>
+
+  {/* Reset Transaction Button (Right) */}
+  <div>
+    <ResetTransactionBtn />
+  </div>
+</div>
+
     </div>
   );
 }
