@@ -61,7 +61,9 @@ if (session?.user?.idToken) {
     return (
         <div>
             {status === 'Not eligible' && (
-                <p>You can have the AI report after 2 months. Thanks for your patience.</p>
+                <p className="text-white text-xs text-center">
+                Upon two months completion of your group registration, we will analyze your expense history and provide you a brief detail here.
+              </p>
             )}
 
             {status === 'Report Pending' && (

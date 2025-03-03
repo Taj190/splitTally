@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
 import { useParams } from "next/navigation";
 import { useSelector } from "react-redux";
-
+import AddIcon from '@mui/icons-material/Add'; 
 const AddTransaction = ( {fetchTransactions}) => {
   const params = useParams();
   const groupName = params.groupName;  
@@ -47,10 +47,16 @@ const AddTransaction = ( {fetchTransactions}) => {
 
   return (
   
-    <div className="p-4 w-full max-w-md mx-auto">
-   <button onClick={() => setShowForm(true)} className="btn-gradient">
-  Add Transaction
-</button>
+    <div className=" w-full max-w-md pl-1">
+      <button
+    onClick={() => setShowForm(true)}
+    className="flex flex-col items-center justify-center bg-transparent border-none outline-none focus:outline-none"
+  >
+    <div className="w-10 h-10 flex items-center justify-center bg-blue-100 rounded-full text-blue-600 text-xl font-bold hover:bg-blue-200 transition-colors">
+      <AddIcon /> {/* Use the Material-UI Add icon */}
+    </div>
+    <span className="text-[10px] text-blue-600 mt-1.5 font-medium">Add Transaction</span>
+  </button>
 
 
       {showForm && (

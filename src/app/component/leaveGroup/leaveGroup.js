@@ -6,14 +6,14 @@ import { useParams, useRouter } from "next/navigation";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 
-export default function ResetTransactionBtn() {
+export default function LeaveGroupBtn() {
   const router = useRouter();
     const params = useParams();
     const groupName = params.groupName; 
     const { data: session } = useSession();
     const groups = useSelector((state) => state.groups.groups);
     const groupDetail = groups.find((group) => group.name === groupName);
-    const _id = groupDetail?._id;
+    const groupId= groupDetail?._id;
     let headers = {};
    if (session?.user?.idToken) {
     headers.Authorization = `Bearer ${session.user.idToken}`;
@@ -22,9 +22,9 @@ export default function ResetTransactionBtn() {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post(
-        "http://localhost:8080/account/reset",
-        {groupId :_id },
+      const response = await axios.delete(
+        `http://localhost:8080/group/leave/${groupId}`,
+        
         {
           withCredentials: true,
           headers
@@ -32,7 +32,7 @@ export default function ResetTransactionBtn() {
       );
       if (response.data.success) {
         toast.success(response.data.message);
-        router.push(`/dashboard/${groupName}`);
+        router.push(`/dashboard`);
       }
     } catch (error) {
       if (error.response && error.response.status === 401) {
@@ -46,12 +46,12 @@ export default function ResetTransactionBtn() {
   };
 
   return (
-    <div >
+    <div className="ml-0 pl-0">
       <button 
         onClick={handleSubmit}
-        className="px-5 py-2  btn-warm"
+        className=" btn-warm"
       >
-         Reset Transaction
+         Leave Group
       </button>
     </div>
   );

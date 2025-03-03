@@ -39,11 +39,11 @@ const ResetDetail = () => {
   return (
     <>
       {resetInfo && resetInfo.length > 0 ? (
-        <p   className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-          Account was reset by <span className="font-semibold">{resetInfo.resetBy}</span>
+        <p   className="  border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+          Account was reset by <span className="font-semibold">{resetInfo.resetBy} on {resetInfo.dateTime}</span>
         </p>
       ):
-      <p   className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+      <p   className=" border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">
       <span className="font-semibold"> All Transaction detail is available</span>
     </p>
       }

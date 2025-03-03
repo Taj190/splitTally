@@ -10,10 +10,12 @@
     "test": "jest"
   },
   "dependencies": {
-    "@ant-design/icons": "^5.6.0",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/icons-material": "^6.4.6",
+    "@mui/material": "^6.4.6",
     "@reduxjs/toolkit": "^2.5.1",
     "aframe": "^1.7.0",
-    "antd": "^5.23.2",
     "axios": "^1.7.9",
     "chart.js": "^4.4.8",
     "cookie": "^1.0.2",

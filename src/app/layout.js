@@ -9,6 +9,8 @@ import 'react-toastify/dist/ReactToastify.css'; // Toastify styles
 import './globals.css'; // Your global styles
 import { persistor, store } from './store';
 import Navbar from './component/navbar/Navbar';
+import dynamic from 'next/dynamic';
+const Footer = dynamic(() => import("./component/footer/footer"), { ssr: false });
 
 export default function RootLayout({ children }) {
   return (
@@ -37,6 +39,7 @@ export default function RootLayout({ children }) {
             </SessionProvider>
           </PersistGate>
         </Provider>
+      <Footer/>
       </body>
     </html>
   );
