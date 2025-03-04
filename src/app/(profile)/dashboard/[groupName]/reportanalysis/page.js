@@ -71,7 +71,7 @@ export default function ReportVisualization() {
     return (
         <div className="max-w-4xl mx-auto p-6 bg-white dark:bg-gray-700 text-gray-900 dark:text-white shadow-lg rounded-2xl mt-5">
             <h2 className="text-xl font-bold text-center mb-4">Spending Report: {months[0]} vs. {months[1]}</h2>
-            <p className="text-gray-600 text-sm text-center mb-6">AI Analysis of Your Group's Expenses</p>
+            <p className="text-gray-600 text-sm text-center mb-6">Analysis of Your Group's Expenses</p>
 
             {/* Pie Chart */}
             <div className="flex justify-center mb-8">
@@ -87,7 +87,7 @@ export default function ReportVisualization() {
 
             {/* Advice Section */}
             <div className="mt-8">
-                <h3 className="text-lg font-semibold mb-4">AI Suggestions</h3>
+                <h3 className="text-lg font-semibold mb-4">SplitTally Suggestions</h3>
                 <motion.ul
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}

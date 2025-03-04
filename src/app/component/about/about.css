@@ -1,0 +1,18 @@
+/* styles/backgroundAnimation.css */
+@keyframes moveGradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  
+  .about-section {
+    background: linear-gradient(270deg, #0A1F3A, #1A3A5A, #2A5A7A);
+    background-size: 200% 200%;
+    animation: moveGradient 10s ease infinite;
+  }
