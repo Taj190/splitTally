@@ -9,7 +9,7 @@ export const fetchGroups = createAsyncThunk(
             ? { Authorization: `Bearer ${token}` }
             : { credentials: "include" };
           const response = await axios.get(
-            `http://localhost:8080/group/list?page=${page}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/group/list?page=${page}`,
             { headers, withCredentials: true }
           );
          

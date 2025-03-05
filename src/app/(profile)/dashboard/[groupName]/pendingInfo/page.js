@@ -1,6 +1,6 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import {  FaArrowLeft } from "react-icons/fa";
@@ -12,32 +12,36 @@ export default function PendingInfoPage() {
   const [transaction, setTransaction] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  
-  let headers = {};
-  if (session?.user?.idToken) {
-    headers.Authorization = `Bearer ${session.user.idToken}`;
-  }
+
+  const headers = useMemo(() => {
+    const headers = {};
+    if (session?.user?.idToken) {
+      headers.Authorization = `Bearer ${session.user.idToken}`;
+    }
+    return headers;
+  }, [session?.user?.idToken]);
 
   const handleGoBack = () => {
     router.back();
   };
 
-  useEffect(() => {
-    const fetchTransaction = async () => {
-      try {
-        const res = await axios.get(`http://localhost:8080/transaction/status/${transactionId}`,
-         { headers, withCredentials: true, });
-        setTransaction(res.data);
-      
-      } catch (err) {
-        setError("Failed to fetch transaction details.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchTransaction = useCallback(async () => {
+    try {
+      const res = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/transaction/status/${transactionId}`,
+        { headers, withCredentials: true }
+      );
+      setTransaction(res.data);
+    } catch (err) {
+      setError('Failed to fetch transaction details.');
+    } finally {
+      setLoading(false);
+    }
+  }, [transactionId, headers]);
 
+  useEffect(() => {
     fetchTransaction();
-  }, [transactionId, session]);
+  }, [fetchTransaction]);
 
   if (loading) return <p className="text-center text-gray-500">Loading...</p>;
   if (error) return <p className="text-center text-red-500">{error}</p>;

@@ -20,7 +20,7 @@ const ResetDetail = () => {
   useEffect(() => {
     const fetchResetDetail = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/account/reset-detail/${groupId}`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/account/reset-detail/${groupId}`, {
           withCredentials: true,
           headers // Include credentials if required
         });

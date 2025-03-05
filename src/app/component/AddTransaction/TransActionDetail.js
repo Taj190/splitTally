@@ -30,7 +30,7 @@ const TransactionTable = ({ transactions, fetchTransactions, page, setCurrentPag
   const updateTransactionStatus = async (transactionId, status) => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/verify/verifytransaction', // Same API for both actions
+        `${process.env.NEXT_PUBLIC_API_URL}/verify/verifytransaction`, // Same API for both actions
         { transactionId, status }, // Sending transactionId and dynamic status
         {
           headers,
@@ -72,7 +72,7 @@ const TransactionTable = ({ transactions, fetchTransactions, page, setCurrentPag
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.description}</td>
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.amount}</td>
                 <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.initiator.name}</td>
-                <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{new Date(transaction.date).toLocaleDateString()}</td>
+                <td className=" p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500">{transaction.date ? new Date(transaction.date).toLocaleDateString() : "N/A"}</td>
                 <td className="p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white">
                {transaction.status === "pending" ? (
                <Link

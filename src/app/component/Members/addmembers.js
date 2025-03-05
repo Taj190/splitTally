@@ -26,7 +26,7 @@ export default function AddMemberButton({groupId}) {
     setLoading(true)
     try {
       const response = await axios.post(
-        "http://localhost:8080/code/addmember",
+        `${process.env.NEXT_PUBLIC_API_URL}/code/addmember`,
         { email , groupId},
         {
           withCredentials: true, // Needed for email/password users
@@ -53,7 +53,7 @@ export default function AddMemberButton({groupId}) {
     setLoading(true)
     try {
       const response = await axios.post(
-        "http://localhost:8080/send/invitation",
+        `${process.env.NEXT_PUBLIC_API_URL}/send/invitation`,
         { email, code , groupId , name },
         {
           withCredentials: true, // Needed for email/password users

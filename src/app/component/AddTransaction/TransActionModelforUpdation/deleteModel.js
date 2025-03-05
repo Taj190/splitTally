@@ -11,7 +11,7 @@ const DeleteTransactionModal = ({ transactionId, onClose, onSuccess }) => {
     }
   const handleDelete = async () => {
     try {
-     const res= await axios.delete(`http://localhost:8080/delete/transaction/${transactionId}`,{headers,withCredentials: true,});
+     const res= await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/delete/transaction/${transactionId}`,{headers,withCredentials: true,});
      if(res.data.success){
     toast.success("Transaction deleted successfully!");
     onSuccess(); // Refresh the list

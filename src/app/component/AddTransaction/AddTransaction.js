@@ -26,7 +26,7 @@ const AddTransaction = ( {fetchTransactions}) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8080/add/transaction",
+        `${process.env.NEXT_PUBLIC_API_URL}/add/transaction`,
         { description, amount, groupId :_id },
         {
           withCredentials: true,

@@ -24,7 +24,7 @@ if (session?.user?.idToken) {
         // Fetch the status when the component mounts
         const fetchStatus = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/report/eligibility/${groupId}`, 
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/report/eligibility/${groupId}`, 
                     { headers,
                     withCredentials: true,});
                 setStatus(response.data.status);
@@ -44,7 +44,7 @@ if (session?.user?.idToken) {
     const handleGenerateReport = async () => {
         setLoading(true);
         try {
-            const response = await axios.post('http://localhost:8080/spending/analize', { groupId },
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/spending/analize`, { groupId },
                 { headers, withCredentials: true }
             );
             if (response.data.success) {

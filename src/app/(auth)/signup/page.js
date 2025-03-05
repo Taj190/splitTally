@@ -15,7 +15,7 @@ export default function Home() {
       saveUser()
      
     }
-  }, [session, router ]);
+  }, [session, router  , saveUser ]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50 dark:from-gray-800 dark:to-gray-900 p-4">

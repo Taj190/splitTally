@@ -17,7 +17,7 @@ const EditTransactionModal = ({ transactionId, onClose, onSuccess }) => {
   useEffect(() => {
     const fetchTransactionDetails = async () => {
       try {
-        const response = await axios.get(`http://localhost:8080/single/transaction/${transactionId}`,
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/single/transaction/${transactionId}`,
      {headers,withCredentials: true,});
       
      if (response.data.success){
@@ -44,7 +44,7 @@ const EditTransactionModal = ({ transactionId, onClose, onSuccess }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-    const res =  await axios.put(`http://localhost:8080/edit/transaction/${transactionId}`, {updatedData} , 
+    const res =  await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/edit/transaction/${transactionId}`, {updatedData} , 
         {headers,withCredentials: true, }
       );
      if(res.data.success){

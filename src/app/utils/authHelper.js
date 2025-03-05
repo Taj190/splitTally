@@ -21,7 +21,7 @@ export const useSaveUserData = (user, router) => {
   const saveUserData = useCallback(async () => {
     try {
       const response = await axios.post(
-        'http://localhost:8080/user/sign-up',
+        `${process.env.NEXT_PUBLIC_API_URL}/user/sign-up`,
         {
           name: user?.name,
           email: user?.email,
@@ -49,7 +49,7 @@ export const useSaveUserData = (user, router) => {
 
 export const handleGetCode = async (email, setCodeSent, toast) => {
     try {
-      const response = await axios.post('http://localhost:8080/code/signUpcode', { email });
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/code/signUpcode`, { email });
       if (response.data.success) {
         toast.success(response.data.message);
         setCodeSent(true);
@@ -73,7 +73,7 @@ export const handleGetCode = async (email, setCodeSent, toast) => {
     }
   
     try {
-      const response = await axios.post('http://localhost:8080/user/sign-up', {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/user/sign-up`, {
         name,
         email,
         password,

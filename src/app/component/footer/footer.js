@@ -20,48 +20,53 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-900 text-white py-8 transition-opacity duration-500">
-      <div className="container mx-auto px-4">
-        {/* Contact Information */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
-          <div className="flex items-center space-x-4">
-            <PhoneIcon className="text-blue-400" />
-            <span>+351931395409</span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <EmailIcon className="text-blue-400" />
-            <span>support@splittally.com</span>
-          </div>
-
-          <div className="flex items-center space-x-4">
-            <LocationOnIcon className="text-blue-400" />
-            <span>Rua Caetano Feu, 8500-807, Portimao, Portugal</span>
-          </div>
+    <div className="container mx-auto px-4">
+      {/* Contact Information */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+        <div className="flex items-center space-x-4">
+          <PhoneIcon className="text-blue-400" />
+          <span>+351931395409</span>
         </div>
 
-        {/* Links */}
-        <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
-          <Link href="/" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
-            <HomeIcon />
-            <span>Home</span>
-          </Link>
+        <div className="flex items-center space-x-4">
+          <EmailIcon className="text-blue-400" />
+          <span>support@splittally.com</span>
+        </div>
 
-          <Link href="/login" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
-            <LoginIcon />
-            <span>Login</span>
-          </Link>
-
-          <Link href="/signup" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
-            <HowToRegIcon />
-            <span>Signup</span>
-          </Link>
+        <div className="flex items-center space-x-4">
+          <LocationOnIcon className="text-blue-400" />
+          <span>Rua Caetano Feu, 8500-807, Portimao, Portugal</span>
         </div>
       </div>
 
-      <div className="text-center mt-8 text-sm text-gray-400">
-        &copy; {new Date().getFullYear()} SplitTally. All rights reserved.
+      {/* Links */}
+      <div className="flex flex-col md:flex-row justify-center items-center space-y-4 md:space-y-0 md:space-x-8">
+        <Link href="/" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+          <HomeIcon />
+          <span>Home</span>
+        </Link>
+
+        <Link href="/login" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+          <LoginIcon />
+          <span>Login</span>
+        </Link>
+
+        <Link href="/signup" className="flex items-center space-x-2 hover:text-blue-400 transition-colors">
+          <HowToRegIcon />
+          <span>Signup</span>
+        </Link>
+        
+        <Link href="/privacypolicy" className="text-blue-400 hover:underline transition-colors">
+          Privacy Policy
+        </Link>
       </div>
-    </footer>
+    </div>
+
+    <div className="text-center mt-8 text-sm text-gray-400">
+      &copy; {new Date().getFullYear()} SplitTally. All rights reserved.
+    </div>
+  </footer>
+
   );
 };
 

@@ -4,12 +4,14 @@ import { toast } from 'react-toastify';
 import { signIn } from 'next-auth/react';
 import { handleGetCode, handleSignUp } from '@/app/utils/authHelper';
 import { FcGoogle } from 'react-icons/fc';
+import { IconButton, InputAdornment } from '@mui/material';
+import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 const SignUpForm = () => {
   const router = useRouter();
   const [formData, setFormData] = useState({ name: '', email: '', password: '', code: '', codeSent: false });
   const { name, email, password, code, codeSent } = formData;
-
+  const [showPassword, setShowPassword] = useState(false);
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -39,7 +41,9 @@ const SignUpForm = () => {
       toast.error('Something went wrong with Google Sign-Up.');
     }
   };
-
+  const handleTogglePasswordVisibility = () => {
+    setShowPassword((prev) => !prev);
+  };
   return (
     <div className="space-y-6">
   <form onSubmit={handleSubmit} className="space-y-4">
@@ -69,19 +73,28 @@ const SignUpForm = () => {
         className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
       />
     </div>
-    <div>
-      <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
-        Password
-      </label>
-      <input
-        type="password"
-        name="password"
-        value={password}
-        onChange={handleInputChange}
-        placeholder="Enter your password"
-        className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
-      />
-    </div>
+    <div className="relative">
+  <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
+    Password
+  </label>
+  <input
+    type={showPassword ? "text" : "password"}
+    name="password"
+    value={password}
+    onChange={handleInputChange}
+    placeholder="Enter your password"
+    className="w-full p-2 border rounded-md bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+  />
+<button
+  type="button"
+  onClick={handleTogglePasswordVisibility}
+  className="absolute top-1/2 right-2 -translate-y-1/2 mt-2 flex items-center text-gray-500 dark:text-gray-300"
+>
+  {showPassword ? <VisibilityOff /> : <Visibility />}
+</button>
+
+</div>
+
     <div>
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-200 mb-1">
         Get Code

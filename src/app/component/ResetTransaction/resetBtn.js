@@ -23,7 +23,7 @@ export default function ResetTransactionBtn() {
   const handleSubmit = async () => {
     try {
       const response = await axios.post(
-        "http://localhost:8080/account/reset",
+        `${process.env.NEXT_PUBLIC_API_URL}/account/reset`,
         {groupId :_id },
         {
           withCredentials: true,

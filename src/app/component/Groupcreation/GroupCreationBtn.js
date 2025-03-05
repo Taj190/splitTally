@@ -22,7 +22,7 @@ const CreateGroupButton = ({fetchGroups}) => {
         : { credentials: 'include' };
 
       const res = await axios.post(
-        'http://localhost:8080/group/creation',
+        `${process.env.NEXT_PUBLIC_API_URL}/group/creation`,
         { groupName },
         { headers, withCredentials: true }
       );

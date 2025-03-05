@@ -35,7 +35,7 @@ if (session?.user?.idToken) {
 
   const fetchTransactions = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/total/expense/${groupId}`, {
+      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/total/expense/${groupId}`, {
         headers,
         withCredentials: true,
       });

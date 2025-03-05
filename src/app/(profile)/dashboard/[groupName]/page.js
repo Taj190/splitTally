@@ -46,7 +46,7 @@ export default function GroupDetails() {
     if (!groupName || status === 'loading') return;
     const fetchGroup = async () => {
       try {
-        const res = await axios.get(`http://localhost:8080/group/detail?_id=${_id}`, {
+        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/group/detail?_id=${_id}`, {
           headers,
           withCredentials: true,
         });
@@ -58,11 +58,11 @@ export default function GroupDetails() {
       }
     };
     fetchGroup();
-  }, [groupName, session, status]);
+  }, [groupName, session, status , headers]);
 
   const fetchTransactions = async () => {
     try {
-      const res = await axios.get(`http://localhost:8080/transactions/detail?groupId=${_id}&page=${page}`, {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/transactions/detail?groupId=${_id}&page=${page}`, {
         headers,
         withCredentials: true,
       });

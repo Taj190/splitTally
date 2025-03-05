@@ -23,11 +23,12 @@ const Navbar = () => {
       try {
        
         if (session) {
-          await signOut({ redirect: false }); // Google logout
+          await signOut({ redirect: false });
+          router.push('/'); 
         } 
         else{
           try {
-          const res =  await axios.post('http://localhost:8080/auth/logout',{}, { 
+          const res =  await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/logout`,{}, { 
          withCredentials: true  // Ensures cookies are sent
             });
 

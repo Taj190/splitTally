@@ -2,7 +2,6 @@
 import { useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useDispatch } from "react-redux";
 import { FcGoogle } from "react-icons/fc";
 import LoginForm from "../../component/signUp/loginForm";
 import Link from "next/link";
@@ -19,7 +18,7 @@ export default function LoginPage() {
       saveUser()
      
     }
-  }, [session, router ]);
+  }, [session, router , saveUser ]);
 
   const handleGoogleSignUp = async () => {
     try {

@@ -4,7 +4,7 @@ export const loginUser = createAsyncThunk(
   "auth/login",
   async ({ email, password }, { rejectWithValue }) => {
     try {
-      const response = await axios.post("http://localhost:8080/login/user", {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/login/user`, {
         email,
         password,
       },{ withCredentials: true } );

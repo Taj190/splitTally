@@ -20,15 +20,19 @@ export default function SettlementTable() {
   const [totalAmount, setTotalAmount] = useState(0);
   const [splitAmount, setSplitAmount] = useState(0);
 
-  let headers = {};
-  if (session?.user?.idToken) {
-    headers.Authorization = `Bearer ${session.user.idToken}`;
-  }
+  const headers = useMemo(() => {
+    const headers = {};
+    if (session?.user?.idToken) {
+      headers.Authorization = `Bearer ${session.user.idToken}`;
+    }
+    return headers;
+  }, [session?.user?.idToken]);
 
-  const fetchData = async () => {
+  // Memoize fetchData
+  const fetchData = useCallback(async () => {
     try {
       const response = await axios.get(
-        `http://localhost:8080/account/settlement/${groupId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/account/settlement/${groupId}`,
         {
           headers,
           withCredentials: true,
@@ -41,13 +45,15 @@ export default function SettlementTable() {
       setSplitAmount(splitAmount);
       setSettlements(settlements);
     } catch (error) {
-      console.error("Error fetching settlement data:", error);
+      console.error('Error fetching settlement data:', error);
     }
-  };
+  }, [groupId, headers])
 
   useEffect(() => {
     fetchData();
-  }, [groupId]);
+  }, [fetchData]);
+
+
   const handleGoBack = () => {
     router.back();
   };

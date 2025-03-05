@@ -23,7 +23,7 @@ export default function LeaveGroupBtn() {
   const handleSubmit = async () => {
     try {
       const response = await axios.delete(
-        `http://localhost:8080/group/leave/${groupId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/group/leave/${groupId}`,
         
         {
           withCredentials: true,

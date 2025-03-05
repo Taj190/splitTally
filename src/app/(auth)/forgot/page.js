@@ -13,7 +13,7 @@ export default function ForgetPassword() {
 
   const handleRequestReset = async () => {
     try {
-      const res = await axios.post('http://localhost:8080/auth/forgot-password', { email });
+      const res = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/forgot-password`, { email });
       if (res.data.success) setStep(2);
     } catch (error) {
       console.error('Error requesting reset code:', error);

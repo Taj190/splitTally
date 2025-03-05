@@ -27,7 +27,7 @@ const ToggleButton = () => {
     const fetchPrivacyMode = async () => {
       try {
         const response = await axios.get(
-          `http://localhost:8080/mode/status?groupId=${_id}`,
+          `${process.env.NEXT_PUBLIC_API_URL}/mode/status?groupId=${_id}`,
           {
             withCredentials: true,
             headers,
@@ -53,7 +53,7 @@ const ToggleButton = () => {
 
     try {
       const response = await axios.put(
-        "http://localhost:8080/privacymode/toggle",
+        `${process.env.NEXT_PUBLIC_API_URL}/privacymode/toggle`,
         { groupId: _id, privacyMode: newValue },
         {
           withCredentials: true,
