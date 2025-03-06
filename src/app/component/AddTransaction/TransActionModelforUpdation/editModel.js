@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useSession } from "next-auth/react";
@@ -9,10 +9,14 @@ const EditTransactionModal = ({ transactionId, onClose, onSuccess }) => {
     description: "",
     amount: "",
   });
-  let headers = {};
+const headers = useMemo(() => {
+  const headers = {};
   if (session?.user?.idToken) {
     headers.Authorization = `Bearer ${session.user.idToken}`;
   }
+  return headers;
+}, [session?.user?.idToken]); // Only recreate headers when session.user.idToken changes
+
   // Fetch transaction details when modal opens
   useEffect(() => {
     const fetchTransactionDetails = async () => {
@@ -35,7 +39,7 @@ const EditTransactionModal = ({ transactionId, onClose, onSuccess }) => {
     if (transactionId) {
       fetchTransactionDetails();
     }
-  }, [transactionId]);
+  }, [transactionId, headers]);
 
   const handleChange = (e) => {
     setFormData({ ...updatedData, [e.target.name]: e.target.value });

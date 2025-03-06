@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { useSelector } from "react-redux";
@@ -13,28 +13,35 @@ const ResetDetail = () => {
   const groups = useSelector((state) => state.groups.groups);
   const groupDetail = groups.find((group) => group.name === groupName);
   const groupId = groupDetail?._id;
-  let headers = {};
- if (session?.user?.idToken) {
-  headers.Authorization = `Bearer ${session.user.idToken}`;
-}
-  useEffect(() => {
-    const fetchResetDetail = async () => {
-      try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/account/reset-detail/${groupId}`, {
+  
+  const headers = useMemo(() => {
+    const headers = {};
+    if (session?.user?.idToken) {
+      headers.Authorization = `Bearer ${session.user.idToken}`;
+    }
+    return headers;
+  }, [session?.user?.idToken]);
+  const fetchResetDetail = useCallback(async () => {
+    try {
+      const response = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_URL}/account/reset-detail/${groupId}`,
+        {
           withCredentials: true,
-          headers // Include credentials if required
-        });
-
-        if (response.data.length > 0) {
-          setResetInfo(response.data);
+          headers,
         }
-      } catch (error) {
-        console.error("Error fetching reset details:", error);
-      }
-    };
+      );
 
+      if (response.data.length > 0) {
+        setResetInfo(response.data);
+      }
+    } catch (error) {
+      console.error('Error fetching reset details:', error);
+    }
+  }, [groupId, headers]);
+
+  useEffect(() => {
     fetchResetDetail();
-  }, []);
+  }, [fetchResetDetail]);
 
   return (
     <>

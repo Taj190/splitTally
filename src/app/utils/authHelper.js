@@ -41,7 +41,7 @@ export const useSaveUserData = (user, router) => {
       toast.error(error.response?.data?.message || "Something went wrong!");
       setLogoutTriggered(true);
     }
-  }, [user, router, dispatch]); 
+  }, [user, router]); 
 
 
   return saveUserData;

@@ -1,5 +1,5 @@
 "use client"
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useParams, useRouter } from 'next/navigation';
@@ -16,10 +16,13 @@ const ReportComponent = () => {
     const groups = useSelector((state) => state.groups.groups);
     const groupDetail = groups.find((group) => group.name === groupName);
     const groupId = groupDetail?._id;
-    let headers = {};
-if (session?.user?.idToken) {
-    headers.Authorization = `Bearer ${session.user.idToken}`;
-  }
+    const headers = useMemo(() => {
+        const headers = {};
+        if (session?.user?.idToken) {
+          headers.Authorization = `Bearer ${session.user.idToken}`;
+        }
+        return headers;
+      }, [session?.user?.idToken]);
     useEffect(() => {
         // Fetch the status when the component mounts
         const fetchStatus = async () => {
@@ -34,7 +37,7 @@ if (session?.user?.idToken) {
         };
 
         fetchStatus();
-    }, [groupId]);
+    }, [groupId ,  headers]);
 
     const handleGetReport = async () => {
         setLoading(true);

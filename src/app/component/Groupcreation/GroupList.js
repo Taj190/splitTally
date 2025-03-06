@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../Pagination/Pagination';
 import { fetchGroups } from '@/app/store/thunks/groupListThunk';
@@ -12,14 +12,15 @@ export default function GroupList() {
   const [currentPage, setCurrentPage] = useState(1);
   const { data: session } = useSession(); 
  
-  const fetchUpdatedGroups = () => {
+  const fetchUpdatedGroups = useCallback(() => {
     let token = session?.user?.idToken || null;
     dispatch(fetchGroups({ page: currentPage, token }));
-  };
+  }, [dispatch, currentPage, session]); // Dependencies: dispatch, currentPage, session
 
+  
   useEffect(() => {
     fetchUpdatedGroups();
-  }, [dispatch, currentPage, session]);
+  }, [fetchUpdatedGroups]);
   
   return (
     <div className="w-full md:w-1/1 max-w-sm p-4 bg-white dark:bg-gray-800 rounded-lg shadow-md">

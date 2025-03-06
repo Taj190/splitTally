@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { Pie, Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, Title, Tooltip, Legend, ArcElement, BarElement, CategoryScale, LinearScale } from 'chart.js';
@@ -28,18 +28,26 @@ const [userColors, setUserColors] = useState({});
 const groups = useSelector((state) => state.groups.groups);
 const groupDetail = groups.find((group) => group.name === groupName);
 const groupId = groupDetail?._id;
-let headers = {};
-if (session?.user?.idToken) {
+const headers = useMemo(() => {
+  const headers = {};
+  if (session?.user?.idToken) {
     headers.Authorization = `Bearer ${session.user.idToken}`;
   }
+  return headers;
+}, [session?.user?.idToken]); // Only recreate headers when session.user.idToken changes
 
-  const fetchTransactions = async () => {
-    try {
-      const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/total/expense/${groupId}`, {
+
+const fetchTransactions = useCallback(async () => {
+  try {
+    const response = await axios.get(
+      `${process.env.NEXT_PUBLIC_API_URL}/total/expense/${groupId}`,
+      {
         headers,
         withCredentials: true,
-      });
-     if(response.data.success){
+      }
+    );
+
+    if (response.data.success) {
       const colors = {};
       response.data.contributionArray.forEach((user) => {
         colors[user.name] = getRandomColor();
@@ -47,18 +55,17 @@ if (session?.user?.idToken) {
       setUserColors(colors);
       setData(response.data);
       setLoading(false);
-     }
-  
-    } catch (error) {
-      console.log(error)
-      setLoading(false);
-      toast.error("Transaction list is not available ");
     }
-  };
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    toast.error('Transaction list is not available');
+  }
+}, [groupId, headers]); 
   useEffect(() => {
     // Fetch the transaction details for the group
     fetchTransactions();
-  }, [groupId]);
+  }, [fetchTransactions]);
   const handleGoBack = () => {
     router.back();
   };

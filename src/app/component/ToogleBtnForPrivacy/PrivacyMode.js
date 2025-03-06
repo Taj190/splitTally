@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 import { toast } from "react-toastify";
@@ -18,13 +18,16 @@ const ToggleButton = () => {
   const [lastUpdatedBy, setLastUpdatedBy] = useState(null);
   const [daysUntilReset, setDaysUntilReset] = useState(null);
   const { data: session } = useSession();
-  let token = session?.user?.idToken || null;
-  const headers = token
-    ? { Authorization: `Bearer ${token}` }
-    : { credentials: "include" };
+  const headers = useMemo(() => {
+    const headers = {};
+    if (session?.user?.idToken) {
+      headers.Authorization = `Bearer ${session.user.idToken}`;
+    }
+    return headers;
+  }, [session?.user?.idToken]);
 
 
-    const fetchPrivacyMode = async () => {
+    const fetchPrivacyMode = useCallback(async () => {
       try {
         const response = await axios.get(
           `${process.env.NEXT_PUBLIC_API_URL}/mode/status?groupId=${_id}`,
@@ -38,12 +41,12 @@ const ToggleButton = () => {
         setLastUpdatedBy(response.data.lastUpdatedBy);
         setDaysUntilReset(response.data.daysUntilReset);
       } catch (error) {
-        console.error("Failed to fetch privacy mode:", error);
+        console.error('Failed to fetch privacy mode:', error);
       }
-    };
+    }, [_id, headers]);
   useEffect(() => {
     fetchPrivacyMode();
-  }, [session, _id]);
+  }, [fetchPrivacyMode]);
 
   const handleToggle = async () => {
     if (attemptsLeft === 0) return;

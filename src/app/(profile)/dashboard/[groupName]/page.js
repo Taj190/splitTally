@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import { useSelector } from 'react-redux';
@@ -37,30 +37,33 @@ export default function GroupDetails() {
   const groups = useSelector((state) => state.groups.groups);
   const groupDetail = groups.find((group) => group.name === groupName);
   const _id = groupDetail?._id;
-  let headers = {};
-  if (session?.user?.idToken) {
-    headers.Authorization = `Bearer ${session.user.idToken}`;
-  }
+  const headers = useMemo(() => {
+    const headers = {};
+    if (session?.user?.idToken) {
+      headers.Authorization = `Bearer ${session.user.idToken}`;
+    }
+    return headers;
+  }, [session?.user?.idToken]);
 
-  useEffect(() => {
+  const fetchGroup = useCallback(async()=>{
     if (!groupName || status === 'loading') return;
-    const fetchGroup = async () => {
-      try {
-        const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/group/detail?_id=${_id}`, {
-          headers,
-          withCredentials: true,
-        });
-        setGroup(res.data);
-      } catch (err) {
-        setError('Failed to fetch group details.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    try {
+      const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/group/detail?_id=${_id}`, {
+        headers,
+        withCredentials: true,
+      });
+      setGroup(res.data);
+    } catch (err) {
+      setError('Failed to fetch group details.');
+    } finally {
+      setLoading(false);
+    }
+  },[groupName,  status , headers , _id])
+  useEffect(() => {
     fetchGroup();
-  }, [groupName, session, status , headers]);
+  }, [fetchGroup]);
 
-  const fetchTransactions = async () => {
+  const fetchTransactions = useCallback(async () => {
     try {
       const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/transactions/detail?groupId=${_id}&page=${page}`, {
         headers,
@@ -72,11 +75,11 @@ export default function GroupDetails() {
     } catch (error) {
       console.log(error);
     }
-  };
+  },[ headers,page, groupName, totalPages])
 
   useEffect(() => {
     fetchTransactions();
-  }, [session, page, groupName, totalPages]);
+  }, [  fetchTransactions]);
 
   const handleGoBack = () => {
     router.back();
