@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# SplitTally
 
-## Getting Started
+**SplitTally** is a web application designed to help people living in shared apartments manage common expenses transparently. Users can create groups, add members, and record shared purchases. Transactions are verified by all group members, and the system tracks who owes what. It also provides AI-powered spending analysis and automated settlements for better financial management.
 
-First, run the development server:
+## 🚀 Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### **1. Group Expense Management**
+- Create groups and invite members.
+- Record shared expenses with details such as amount, payer, and description.
+- Transactions are verified by all group members to maintain transparency.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### **2. Real-Time Expense Tracking**
+- View an updated breakdown of who owes what within the group.
+- Instantly see contributions and outstanding balances.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### **3. Automated Settlements**
+- The system automatically settles expenses at the end of each month.
+- Users can review the final settlements before proceeding.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### **4. Privacy Mode for Transactions**
+- Users can enable privacy mode for pending transactions to hide details until verified.
 
-## Learn More
+### **5. AI-Powered Spending Analysis**
+- Users can generate an AI-driven spending analysis report after two months.
+- The report provides insights into spending patterns and suggestions for cost reduction.
+- Once a report is generated, it is stored in the database to prevent duplicate API calls.
+- Groups must wait one month before requesting a new report.
+- Data visualization using **Chart.js** with bar graphs and comparisons.
 
-To learn more about Next.js, take a look at the following resources:
+### **6. Data Visualization**
+- Spending breakdowns available in **pie charts and bar graphs**.
+- Monthly expense comparisons for better financial insights.
+- Planned visualization of settlements using **Sankey diagrams** or **force-directed graphs**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### **7. Secure Authentication & User Management**
+- Signup/Login with email and password.
+- Google OAuth authentication using Google Cloud.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### **8. Reset Password Functionality**
+- Users can request a password reset via email.
+- Secure token-based password reset implementation.
 
-## Deploy on Vercel
+### **9. Privacy Policy & Data Protection**
+- A dedicated **Privacy Policy** page to outline how user data is managed and protected.
+- Secure storage of transaction details and user credentials.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🛠️ Tech Stack
+- **Frontend:** Next.js, Tailwind CSS
+- **Backend:** Node.js, Express.js
+- **Database:** MongoDB
+- **Authentication:** Google OAuth, JWT
+- **Hosting & Deployment:** Vercel
+- **Data Visualization:** Chart.js
+- **AI Integration:** DeepSeek AI
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📌 How It Works
+### **1. Getting Started**
+1. Sign up or log in with Google or email.
+2. Create a group and invite members.
+3. Add expenses with descriptions and amounts.
+4. Review and verify transactions.
+5. Track balances and settle at the end of the month.
+
+### **2. AI-Powered Report Generation**
+- Available only after **two months** of data collection.
+- Once requested, the report is stored to **avoid redundant API calls**.
+- Users must wait **one month** before requesting a new report.
+
+### **3. Privacy & Security**
+- Transactions can be hidden until verified.
+- Password reset tokens ensure secure recovery.
+- Personal data is protected and outlined in the **Privacy Policy**.
+
+## 🔗 Live Demo
+Check out SplitTally live here: [https://split-tally.vercel.app/](https://split-tally.vercel.app/)
+
+
+
+## 📬 Contact
+For any questions or contributions, reach out via LinkedIn or open an issue in the repository!
+
+---
+
+**#ExpenseTracking #Nextjs #FullStackDevelopment #MongoDB #Vercel #AI #WebApp #SharedExpenses #PersonalFinance #DataVisualization**
+
